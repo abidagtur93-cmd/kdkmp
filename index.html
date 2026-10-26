@@ -751,6 +751,17 @@
         <div class="overflow-x-auto max-h-[540px]">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="sticky top-0 bg-slate-800 text-white uppercase text-[11px]">
+  <tr>
+    <th class="py-2.5 px-3 w-14">No</th>
+    <th class="py-2.5 px-3 w-28">Kode Akun</th>
+    <th class="py-2.5 px-3">Kode dan Nama Akun</th>
+    <th class="py-2.5 px-3 w-28 text-center">Saldo Normal</th>
+    <th class="py-2.5 px-3 w-28 text-center">Level 3</th>
+    <th class="py-2.5 px-3 text-right w-44">Saldo Saat Ini (Rp)</th>
+    <th class="py-2.5 px-3 text-center w-28">Aksi</th> <!-- TAMBAHKAN BARIS INI -->
+  </tr>
+</thead>
+            <thead class="sticky top-0 bg-slate-800 text-white uppercase text-[11px]">
               <tr>
                 <th class="py-2.5 px-3 w-14">No</th>
                 <th class="py-2.5 px-3 w-28">Kode Akun</th>
@@ -2089,6 +2100,43 @@
 
       // 6. Render COA Tab
       renderCoaTab(tb);
+      function editCoa(code) {
+  const acc = state.coa.find(a => a.code === code);
+  if (!acc) return;
+
+  const newName = prompt("Ubah Nama Akun:", acc.name);
+  if (newName && newName.trim() !== "") {
+    const oldFull = acc.full;
+    acc.name = newName.trim();
+    acc.full = `${acc.code} ${acc.name}`;
+
+    // Update nama akun jika pernah terpakai di jurnal
+    state.journals.forEach(j => {
+      if (j.account === oldFull) j.account = acc.full;
+    });
+
+    saveState();
+    initJournalFormLines();
+    renderAll();
+    showToast(`Akun ${code} berhasil diperbarui.`);
+  }
+}
+
+function deleteCoa(code) {
+  const isUsed = state.journals.some(j => j.account && j.account.startsWith(code));
+  if (isUsed) {
+    showToast(`Gagal: Akun ${code} sedang digunakan dalam jurnal harian!`, "error");
+    return;
+  }
+
+  if (confirm(`Apakah Anda yakin ingin menghapus akun ${code}?`)) {
+    state.coa = state.coa.filter(a => a.code !== code);
+    saveState();
+    initJournalFormLines();
+    renderAll();
+    showToast(`Akun ${code} berhasil dihapus.`);
+  }
+}
 
       // 7. Render Identity Form
       renderIdentityForm();
@@ -2138,6 +2186,11 @@
             <td class="py-2.5 px-3 text-right font-bold text-slate-900">${fmtRp(it.finalVal)}</td>
             <td class="py-2.5 px-3 text-center">
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeCls}">${it.status}</span>
+            </td>
+            <td class="py-2.5 px-3 text-center whitespace-nowrap space-x-1">
+  <button type="button" data-action="card" data-code="${it.code}" class="inv-action-btn px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold">Kartu Stok</button>
+  <button type="button" data-action="edit" data-code="${it.code}" class="inv-action-btn px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Edit</button>
+  <button type="button" data-action="delete" data-code="${it.code}" class="inv-action-btn px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold">Hapus</button> <!-- TAMBAHKAN INI -->
             </td>
             <td class="py-2.5 px-3 text-center whitespace-nowrap space-x-1">
               <button type="button" data-action="card" data-code="${it.code}" class="inv-action-btn px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold">Kartu Stok</button>
@@ -2461,29 +2514,32 @@
     }
 
     function renderCoaTab(tb) {
-      const s = (document.getElementById("searchCoaInput")?.value || "").toLowerCase();
-      const g = document.getElementById("filterCoaGroup")?.value || "ALL";
+  const s = (document.getElementById("searchCoaInput")?.value || "").toLowerCase();
+  const g = document.getElementById("filterCoaGroup")?.value || "ALL";
 
-      const filtered = tb.filter(a => {
-        const matchG = g === "ALL" || a.lvl1 === g;
-        const matchS = a.full.toLowerCase().includes(s);
-        return matchG && matchS;
-      });
+  const filtered = tb.filter(a => {
+    const matchG = g === "ALL" || a.lvl1 === g;
+    const matchS = a.full.toLowerCase().includes(s);
+    return matchG && matchS;
+  });
 
-      document.getElementById("coaTableBody").innerHTML = filtered.map((a, idx) => `
-        <tr class="hover:bg-slate-50">
-          <td class="py-2 px-3 text-slate-500">${idx + 1}</td>
-          <td class="py-2 px-3 font-mono font-semibold text-slate-700">${a.code}</td>
-          <td class="py-2 px-3 font-medium text-slate-900">${a.full}</td>
-          <td class="py-2 px-3 text-center">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${a.normal === 'Debit' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}">${a.normal}</span>
-          </td>
-          <td class="py-2 px-3 text-center font-mono text-slate-500">${a.lvl3}</td>
-          <td class="py-2 px-3 text-right font-semibold">${fmtRp(a.saldoAkhir)}</td>
-        </tr>
-      `).join("");
-    }
-
+  document.getElementById("coaTableBody").innerHTML = filtered.map((a, idx) => `
+    <tr class="hover:bg-slate-50">
+      <td class="py-2 px-3 text-slate-500">${idx + 1}</td>
+      <td class="py-2 px-3 font-mono font-semibold text-slate-700">${a.code}</td>
+      <td class="py-2 px-3 font-medium text-slate-900">${a.full}</td>
+      <td class="py-2 px-3 text-center">
+        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${a.normal === 'Debit' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}">${a.normal}</span>
+      </td>
+      <td class="py-2 px-3 text-center font-mono text-slate-500">${a.lvl3}</td>
+      <td class="py-2 px-3 text-right font-semibold">${fmtRp(a.saldoAkhir)}</td>
+      <td class="py-2 px-3 text-center whitespace-nowrap space-x-1">
+        <button type="button" onclick="editCoa('${a.code}')" class="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 text-amber-700 font-semibold">Edit</button>
+        <button type="button" onclick="deleteCoa('${a.code}')" class="px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold">Hapus</button>
+      </td>
+    </tr>
+  `).join("");
+}
     function renderIdentityForm() {
       document.getElementById("idCoopName").value = state.identity.coopName || "";
       document.getElementById("idUnitUsaha").value = state.identity.unitUsaha || "";
@@ -2852,16 +2908,22 @@
         document.querySelector('.tab-btn[data-tab="jurnal"]')?.click();
       });
       document.getElementById("btnResetDemoData").addEventListener("click", () => {
-        state = {
-          identity: JSON.parse(JSON.stringify(INITIAL_IDENTITY)),
-          coa: JSON.parse(JSON.stringify(INITIAL_COA)),
-          items: JSON.parse(JSON.stringify(INITIAL_ITEMS)),
-          journals: JSON.parse(JSON.stringify(INITIAL_JOURNALS))
-        };
-        saveState();
-        renderAll();
-        showToast("Data berhasil dikembalikan ke data awal KDMP Banyurojo.");
-      });
+  if (confirm("Apakah Anda yakin ingin mereset seluruh data? Semua transaksi dan nominal akan menjadi 0.")) {
+    state = {
+      identity: JSON.parse(JSON.stringify(INITIAL_IDENTITY)),
+      coa: JSON.parse(JSON.stringify(INITIAL_COA)),
+      items: JSON.parse(JSON.stringify(INITIAL_ITEMS)).map(item => ({
+        ...item,
+        initQty: 0 // Set stok awal ke 0
+      })),
+      journals: [] // Dikosongkan agar seluruh transaksi & nominal di Laporan/Neraca/PHU menjadi Rp 0
+    };
+    saveState();
+    initJournalFormLines();
+    renderAll();
+    showToast("Data berhasil di-reset! Semua transaksi & nominal menjadi Rp 0.");
+  }
+});
 
       // Subtabs Buku Besar & Neraca Saldo
       document.querySelectorAll(".bb-subtab").forEach(btn => {
@@ -2928,8 +2990,36 @@
           const m = document.getElementById("modalItemMaster");
           m.classList.remove("hidden");
           m.classList.add("flex");
-        }
-      });
+        } else if (act === "delete") {
+          document.getElementById("inventoryTableBody").addEventListener("click", (e) => {
+  const btn = e.target.closest(".inv-action-btn");
+  if (!btn) return;
+  const code = btn.getAttribute("data-code");
+  const act = btn.getAttribute("data-action");
+
+  if (act === "card") {
+    openStockCardModal(code);
+  } else if (act === "edit") {
+    // ... kode edit yang sudah ada ...
+  } else if (act === "delete") { // TAMBAHKAN BLOK INI
+    const item = state.items.find(i => i.code === code);
+    if (!item) return;
+
+    const isUsed = state.journals.some(j => j.itemName === item.name);
+    if (isUsed) {
+      showToast(`Gagal: Barang "${item.name}" pernah ditransaksikan di jurnal!`, "error");
+      return;
+    }
+
+    if (confirm(`Apakah Anda yakin ingin menghapus barang "${item.name}" (${code})?`)) {
+      state.items = state.items.filter(i => i.code !== code);
+      saveState();
+      initJournalFormLines();
+      renderAll();
+      showToast(`Barang "${item.name}" berhasil dihapus.`);
+    }
+  }
+});
 
       // Close Stock Card Modal
       document.getElementById("btnCloseStockCard").addEventListener("click", () => {
