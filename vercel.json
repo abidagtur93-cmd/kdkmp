@@ -1,4 +1,11 @@
 {
   "version": 2,
-  "cleanUrls": true
+  "name": "siakad-kdmp",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
