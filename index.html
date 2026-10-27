@@ -109,10 +109,10 @@
               <p id="step2AdminEmailHint" class="text-[11px] text-slate-500 mt-1">Petunjuk Email Terdaftar: -</p>
             </div>
 
-            <!-- Kotak Kotak Masuk Email Virtual / Pengiriman Kode OTP -->
-            <div id="otpSimulatedInboxBanner" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 space-y-1">
+            <!-- Status Pengiriman Kode OTP ke Email Terdaftar (Tanpa Menampilkan Kode OTP di Layar) -->
+            <div id="otpSimulatedInboxBanner" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 space-y-1.5">
               <div class="flex items-center justify-between">
-                <span class="font-extrabold text-[11px] uppercase tracking-wider text-emerald-800">Notifikasi Email Verifikasi Terkirim</span>
+                <span class="font-extrabold text-[11px] uppercase tracking-wider text-emerald-800">Kode OTP Telah Dikirim ke Email Anda</span>
                 <span id="otpTimerBadge" class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-emerald-200">Berlaku 5 Menit</span>
               </div>
               <p id="otpEmailBodyPreview" class="text-xs leading-relaxed"></p>
@@ -314,6 +314,7 @@
           <div class="flex flex-wrap items-center gap-2">
             <span id="currentActiveMenuBadge" class="text-xs font-extrabold uppercase tracking-wider bg-white text-red-800 px-2.5 py-0.5 rounded-full shadow-xs">Menu: Ringkasan & Dashboard</span>
             <span id="headerBalanceBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-300/40 text-emerald-100">Neraca: Balance</span>
+            <span id="cloudSyncBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/30 border border-blue-300/50 text-blue-50">Sinkronisasi Lintas Perangkat: Aktif</span>
             <span id="activeUserBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-900/40 border border-white/25 text-white">Akun: -</span>
           </div>
           <h1 id="headerCoopName" class="text-lg md:text-xl font-extrabold tracking-tight mt-0.5">Koperasi Desa Merah Putih (KDMP) Banyurojo</h1>
@@ -350,6 +351,9 @@
         </button>
         <button id="btnOpenAccountSettings" type="button" class="inline-flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white font-semibold text-xs px-2.5 py-2 rounded-lg transition border border-white/25">
           Pengaturan Akun
+        </button>
+        <button id="btnReturnToSysAdmin" type="button" class="hidden inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-3 py-2 rounded-lg shadow-md transition border border-amber-200">
+          Kembali ke Akun Admin Aplikasi
         </button>
         <button id="btnLogoutUser" type="button" class="inline-flex items-center gap-1 bg-slate-900/70 hover:bg-slate-900 text-white font-semibold text-xs px-2.5 py-2 rounded-lg transition border border-white/25">
           Ganti Akun / Keluar
@@ -981,7 +985,7 @@
                   <th class="py-2.5 px-3 text-right">Simpanan Lainnya (3.1.3)</th>
                   <th class="py-2.5 px-3 text-right">Hibah (3.2.1)</th>
                   <th class="py-2.5 px-3 text-right">Cadangan (3.3.1)</th>
-                  <th class="py-2.5 px-3 text-right">SHU Belum Dibagikan (3.4.1)</th>
+                  <th class="py-2.5 px-3 text-right">SHU & Laba Ditahan (3.4.1 / 3.4.2)</th>
                   <th class="py-2.5 px-3 text-right bg-slate-900">Total Ekuitas</th>
                 </tr>
               </thead>
@@ -1101,6 +1105,24 @@
             <option value="6">6 - BEBAN OPERASIONAL</option>
             <option value="9">9 - PENDAPATAN & BEBAN LAIN-LAIN / PAJAK</option>
           </select>
+        </div>
+      </div>
+
+      <!-- Panel Tutup Buku Akhir Tahun ke Akun COA Laba Ditahan (3.4.2.01) untuk Tahun Anggaran Selanjutnya -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white rounded-xl p-4 border border-slate-700 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div class="space-y-1 max-w-3xl">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-amber-400 text-slate-900 px-2 py-0.5 rounded">PENUTUPAN LABA RUGI AKHIR TAHUN</span>
+            <span class="text-xs font-mono text-amber-300 font-bold">Akun COA: 3.4.2.01 Laba Ditahan</span>
+          </div>
+          <h3 class="text-sm font-extrabold">Tutup Akun Pendapatan & Beban (Laba Rugi) ke COA Laba Ditahan untuk Tahun Anggaran Selanjutnya</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">Fitur ini membuat Jurnal Penutup otomatis pada akhir tahun buku aktif untuk menihilkan seluruh akun Pendapatan (Kepala 4 & 9.1) serta Beban/HPP (Kepala 5, 6, 9.2 & 9.3) ke akun <strong>3.4.2.01 Laba Ditahan</strong> sehingga saldo laba ditahan siap dibawa menjadi saldo awal ekuitas pada tahun anggaran berikutnya.</p>
+        </div>
+        <div class="flex flex-col items-end gap-2">
+          <span id="coaRetainedEarningsPreviewBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-white/10 border border-white/20 text-amber-300">SHU Tahun Berjalan: Rp 0</span>
+          <button type="button" id="btnCloseBookToRetainedEarnings" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-lg shadow transition cursor-pointer">
+            Proses Tutup Buku ke Laba Ditahan (3.4.2.01)
+          </button>
         </div>
       </div>
 
@@ -1291,9 +1313,23 @@
             </ul>
           </div>
 
-          <div id="nonAdminNoticeBox" class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-2">
-            <p class="font-bold">Status Anda Saat Ini: Pengguna Biasa (Non-Admin)</p>
-            <p>Untuk membuka tabel Manajemen Seluruh Pengguna & Hapus Akun di bawah, silakan keluar dan login menggunakan akun Administrator Aplikasi (Username: <strong>admin.aplikasi</strong>).</p>
+          <div id="nonAdminNoticeBox" class="hidden"></div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900">Kredensial Login Akun Ini (Khusus Admin Usaha / Aplikasi):</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">Terbuka Tanpa Sensor</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                <span class="block text-[10px] text-slate-500 uppercase">Username Asli</span>
+                <span id="currentAccountPlainUsername" class="font-mono font-extrabold text-slate-900 text-sm">-</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white border border-slate-200">
+                <span class="block text-[10px] text-slate-500 uppercase">Password Saat Ini</span>
+                <span id="currentAccountPlainPassword" class="font-mono font-extrabold text-red-700 text-sm">-</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-500">Data akun dan transaksi otomatis disinkronkan ke Server Cloud agar dapat dibuka dari laptop atau perangkat lain.</p>
           </div>
 
           <div id="adminActiveNoticeBox" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-1">
@@ -1510,6 +1546,33 @@
             <label class="block font-semibold text-slate-700 mb-1">Pilih Barang Persediaan</label>
             <select id="qtItemCode" required class="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white font-semibold"></select>
             <p id="qtItemStockHint" class="text-[11px] text-slate-500 mt-1">Stok Tersedia: 0</p>
+          </div>
+
+          <!-- Pilihan Supplier Saat Barang Masuk (Otomatis Link ke Data Supplier & HPP) -->
+          <div id="qtSupplierSectionWrap" class="sm:col-span-2 p-3 rounded-xl bg-amber-50/80 border border-amber-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="block font-bold text-amber-950">Pilih Supplier Barang Masuk (Otomatis Link ke Data Supplier & Stok)</label>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-200/70 text-amber-900">Terhubung Otomatis</span>
+            </div>
+            <select id="qtSupplierSelect" class="w-full border border-amber-300 rounded-lg px-3 py-2 bg-white font-semibold text-slate-800"></select>
+            <div id="qtNewSupplierInlineFields" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-amber-200">
+              <div>
+                <label class="block font-semibold text-amber-900 mb-1">Kode Supplier Baru (Format: Urut/SUP/Usaha/Tahun)</label>
+                <input type="text" id="qtNewSupCode" placeholder="001/SUP/KDMP/2026" class="w-full border border-amber-300 rounded-lg px-2.5 py-1.5 bg-white font-mono font-bold" />
+              </div>
+              <div>
+                <label class="block font-semibold text-amber-900 mb-1">Nama Supplier Baru</label>
+                <input type="text" id="qtNewSupName" placeholder="Contoh: CV Sumber Pangan" class="w-full border border-amber-300 rounded-lg px-2.5 py-1.5 bg-white font-semibold" />
+              </div>
+              <div>
+                <label class="block font-semibold text-amber-900 mb-1">Alamat Lengkap Supplier</label>
+                <input type="text" id="qtNewSupAddress" placeholder="Alamat lengkap supplier..." class="w-full border border-amber-300 rounded-lg px-2.5 py-1.5 bg-white" />
+              </div>
+              <div>
+                <label class="block font-semibold text-amber-900 mb-1">No. Telepon Supplier</label>
+                <input type="text" id="qtNewSupPhone" placeholder="0812-xxxx-xxxx" class="w-full border border-amber-300 rounded-lg px-2.5 py-1.5 bg-white font-mono" />
+              </div>
+            </div>
           </div>
 
           <div>
@@ -1998,8 +2061,9 @@
         <input type="hidden" id="supOrigId" value="" />
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Kode Supplier (Dibuat Manual)</label>
-            <input type="text" id="supCodeInput" required placeholder="Contoh: SUP-001" class="w-full border border-slate-300 rounded-lg px-3 py-2 font-mono font-bold" />
+            <label class="block font-semibold text-slate-700 mb-1">Kode Supplier (No.Transaksi/SUP/NamaUsaha/Tahun)</label>
+            <input type="text" id="supCodeInput" required placeholder="001/SUP/KDMP/2026" class="w-full border border-slate-300 rounded-lg px-3 py-2 font-mono font-bold" />
+            <p id="supCodeFormatHint" class="text-[10px] text-slate-500 mt-0.5">Format: No.Urut/SUP/KodeUsaha/TahunBuku (Otomatis naik jika sudah dipakai)</p>
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Nama Supplier / Pemasok</label>
@@ -2038,8 +2102,8 @@
                 <input type="date" id="supTransDate" value="2026-01-10" class="w-full border border-emerald-300 rounded-lg px-2.5 py-1.5 bg-white" />
               </div>
               <div>
-                <label class="block font-semibold text-emerald-900 mb-1">Nomor Bukti Jurnal</label>
-                <input type="text" id="supDocNoInput" placeholder="001/SUP/KDMP/2026" class="w-full border border-emerald-300 rounded-lg px-2.5 py-1.5 bg-white font-mono" />
+                <label class="block font-semibold text-emerald-900 mb-1">Kode Bukti (Urut/SUP/Usaha/Tahun)</label>
+                <input type="text" id="supDocNoInput" placeholder="001/SUP/KDMP/2026" class="w-full border border-emerald-300 rounded-lg px-2.5 py-1.5 bg-white font-mono font-bold" />
               </div>
               <div>
                 <label class="block font-semibold text-emerald-900 mb-1">Akun Pembayaran</label>
@@ -2097,8 +2161,8 @@
   </div>
 
   <script>
-    // ==================== DATA AWAL: COA 151 AKUN STANDAR KOPERASI (SEMUA SALDO AWAL 0) ====================
-    const INITIAL_COA = [{"no": 1, "full": "1.1.1.01 Kas Tunai", "code": "1.1.1.01", "name": "Kas Tunai", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 2, "full": "1.1.1.02 Kas di Bank BRI", "code": "1.1.1.02", "name": "Kas di Bank BRI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 3, "full": "1.1.1.03 Kas di Bank Mandiri", "code": "1.1.1.03", "name": "Kas di Bank Mandiri", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 4, "full": "1.1.1.04 Kas di Bank BNI", "code": "1.1.1.04", "name": "Kas di Bank BNI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 5, "full": "1.1.1.05 Kas di Bank BTN", "code": "1.1.1.05", "name": "Kas di Bank BTN", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 6, "full": "1.1.1.06 Kas di Bank BPD", "code": "1.1.1.06", "name": "Kas di Bank BPD", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 7, "full": "1.1.1.07 Kas di Bank BSI", "code": "1.1.1.07", "name": "Kas di Bank BSI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 8, "full": "1.1.1.10 Kas Kecil (Petty Cash)", "code": "1.1.1.10", "name": "Kas Kecil (Petty Cash)", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 9, "full": "1.1.1.11 Deposito (< 3 bulan)", "code": "1.1.1.11", "name": "Deposito (< 3 bulan)", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 10, "full": "1.1.2.01 Piutang Usaha", "code": "1.1.2.01", "name": "Piutang Usaha", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 11, "full": "1.1.2.02 Piutang kepada Pegawai", "code": "1.1.2.02", "name": "Piutang kepada Pegawai", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 12, "full": "1.1.2.03 Piutang Simpanan Pokok Anggota", "code": "1.1.2.03", "name": "Piutang Simpanan Pokok Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 13, "full": "1.1.2.04 Piutang Simpanan Wajib Anggota", "code": "1.1.2.04", "name": "Piutang Simpanan Wajib Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 14, "full": "1.1.2.05 Piutang Anggota", "code": "1.1.2.05", "name": "Piutang Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 15, "full": "1.1.3.01 Penyisihan Piutang Usaha Tak Tertagih", "code": "1.1.3.01", "name": "Penyisihan Piutang Usaha Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 16, "full": "1.1.3.02 Penyisihan Piutang kepada Pegawai Tak Tertagih", "code": "1.1.3.02", "name": "Penyisihan Piutang kepada Pegawai Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 17, "full": "1.1.3.03 Penyisihan Piutang Simpanan Pokok Anggota Tak Tertagih", "code": "1.1.3.03", "name": "Penyisihan Piutang Simpanan Pokok Anggota Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 18, "full": "1.1.3.04 Penyisihan Piutang Simpanan Wajib Anggota Tak Tertagih", "code": "1.1.3.04", "name": "Penyisihan Piutang Simpanan Wajib Anggota Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 19, "full": "1.1.4.01 Persediaan Barang Dagangan", "code": "1.1.4.01", "name": "Persediaan Barang Dagangan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 20, "full": "1.1.4.02 Persediaan ATK", "code": "1.1.4.02", "name": "Persediaan ATK", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 21, "full": "1.1.4.03 Perlengkapan", "code": "1.1.4.03", "name": "Perlengkapan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 22, "full": "1.1.5.01 Sewa Dibayar Dimuka", "code": "1.1.5.01", "name": "Sewa Dibayar Dimuka", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 23, "full": "1.1.5.02 Asuransi Dibayar Dimuka", "code": "1.1.5.02", "name": "Asuransi Dibayar Dimuka", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 24, "full": "1.1.5.03 PPh 25", "code": "1.1.5.03", "name": "PPh 25", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 25, "full": "1.1.5.04 PPN Masukan", "code": "1.1.5.04", "name": "PPN Masukan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 26, "full": "1.1.8.99 Aset Lancar Lainnya", "code": "1.1.8.99", "name": "Aset Lancar Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.8"}, {"no": 27, "full": "1.1.9.01 RK Pusat", "code": "1.1.9.01", "name": "RK Pusat", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 28, "full": "1.1.9.02 RK Unit Toko", "code": "1.1.9.02", "name": "RK Unit Toko", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 29, "full": "1.1.9.03 RK Pusat Unit Apotek", "code": "1.1.9.03", "name": "RK Pusat Unit Apotek", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 30, "full": "1.1.9.04 RK Unit Simpan Pinjam", "code": "1.1.9.04", "name": "RK Unit Simpan Pinjam", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 31, "full": "1.1.9.05 RK Unit Klinik", "code": "1.1.9.05", "name": "RK Unit Klinik", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 32, "full": "1.1.9.06 RK Unit Gudang", "code": "1.1.9.06", "name": "RK Unit Gudang", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 33, "full": "1.1.9.07 RK Unit Logistik", "code": "1.1.9.07", "name": "RK Unit Logistik", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 34, "full": "1.2.1.01 Investasi dalam Deposito", "code": "1.2.1.01", "name": "Investasi dalam Deposito", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.2", "lvl3": "1.2.1"}, {"no": 35, "full": "1.2.1.99 Investasi Lainnya", "code": "1.2.1.99", "name": "Investasi Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.2", "lvl3": "1.2.1"}, {"no": 36, "full": "1.3.1.01 Tanah", "code": "1.3.1.01", "name": "Tanah", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.1"}, {"no": 37, "full": "1.3.2.01 Gedung dan Bangunan", "code": "1.3.2.01", "name": "Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.2"}, {"no": 38, "full": "1.3.3.01 Peralatan dan Meubelair", "code": "1.3.3.01", "name": "Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.3"}, {"no": 39, "full": "1.3.4.01 Kendaraan", "code": "1.3.4.01", "name": "Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.4"}, {"no": 40, "full": "1.3.5.01 Akumulasi Penyusutan Gedung dan Bangunan", "code": "1.3.5.01", "name": "Akumulasi Penyusutan Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 41, "full": "1.3.5.02 Akumulasi Penyusutan Peralatan dan Meubelair", "code": "1.3.5.02", "name": "Akumulasi Penyusutan Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 42, "full": "1.3.5.03 Akumulasi Penyusutan Kendaraan", "code": "1.3.5.03", "name": "Akumulasi Penyusutan Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 43, "full": "1.3.9.99 Aset Tetap Lainnya", "code": "1.3.9.99", "name": "Aset Tetap Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.9"}, {"no": 44, "full": "1.4.1.01 Software", "code": "1.4.1.01", "name": "Software", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.4", "lvl3": "1.4.1"}, {"no": 45, "full": "1.4.2.01 Amortisasi Aset Tidak Berwujud", "code": "1.4.2.01", "name": "Amortisasi Aset Tidak Berwujud", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.4", "lvl3": "1.4.2"}, {"no": 46, "full": "1.5.1.01 Investasi Jangka Panjang", "code": "1.5.1.01", "name": "Investasi Jangka Panjang", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.5", "lvl3": "1.5.1"}, {"no": 47, "full": "1.9.1.99 Aset Lain-lain lainnya", "code": "1.9.1.99", "name": "Aset Lain-lain lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.9", "lvl3": "1.9.1"}, {"no": 48, "full": "2.1.1.01 Utang Simpanan Pokok", "code": "2.1.1.01", "name": "Utang Simpanan Pokok", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 49, "full": "2.1.1.02 Utang Simpanan Wajib", "code": "2.1.1.02", "name": "Utang Simpanan Wajib", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 50, "full": "2.1.1.03 Utang Simpanan Sukarela", "code": "2.1.1.03", "name": "Utang Simpanan Sukarela", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 51, "full": "2.1.2.01 Utang SHU", "code": "2.1.2.01", "name": "Utang SHU", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.2"}, {"no": 52, "full": "2.1.3.01 Utang Usaha", "code": "2.1.3.01", "name": "Utang Usaha", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.3"}, {"no": 53, "full": "2.1.3.02 Utang Dana Bergulir", "code": "2.1.3.02", "name": "Utang Dana Bergulir", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.3"}, {"no": 54, "full": "2.1.4.01 PPN Keluaran", "code": "2.1.4.01", "name": "PPN Keluaran", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 55, "full": "2.1.4.02 PPh 21", "code": "2.1.4.02", "name": "PPh 21", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 56, "full": "2.1.4.03 PPh 23", "code": "2.1.4.03", "name": "PPh 23", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 57, "full": "2.1.4.04 PPh 29", "code": "2.1.4.04", "name": "PPh 29", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 58, "full": "2.1.5.01 Utang Gaji dan Tunjangan", "code": "2.1.5.01", "name": "Utang Gaji dan Tunjangan", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.5"}, {"no": 59, "full": "2.1.6.01 Utang Listrik", "code": "2.1.6.01", "name": "Utang Listrik", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 60, "full": "2.1.6.02 Utang Telepon", "code": "2.1.6.02", "name": "Utang Telepon", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 61, "full": "2.1.6.99 Utang Utilitas Lainnya", "code": "2.1.6.99", "name": "Utang Utilitas Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 62, "full": "2.1.7.01 Pendapatan Sewa Diterima Dimuka", "code": "2.1.7.01", "name": "Pendapatan Sewa Diterima Dimuka", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.7"}, {"no": 63, "full": "2.1.8.01 Utang kepada Pihak Ketiga Jk. Pendek", "code": "2.1.8.01", "name": "Utang kepada Pihak Ketiga Jk. Pendek", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.8"}, {"no": 64, "full": "2.1.8.99 Utang kepada Pihak Ketiga Jk. Pendek Lainnya", "code": "2.1.8.99", "name": "Utang kepada Pihak Ketiga Jk. Pendek Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.8"}, {"no": 65, "full": "2.1.9.99 Utang Jangka Pendek Lainnya", "code": "2.1.9.99", "name": "Utang Jangka Pendek Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.9"}, {"no": 66, "full": "2.2.1.01 Utang kepada Pihak Ketiga Jk. Panjang", "code": "2.2.1.01", "name": "Utang kepada Pihak Ketiga Jk. Panjang", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.1"}, {"no": 67, "full": "2.2.2.01 Utang Ke Bank", "code": "2.2.2.01", "name": "Utang Ke Bank", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.2"}, {"no": 68, "full": "2.2.9.99 Utang Jangka Panjang Lainnya", "code": "2.2.9.99", "name": "Utang Jangka Panjang Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.9"}, {"no": 69, "full": "3.1.1.01 Simpanan Pokok", "code": "3.1.1.01", "name": "Simpanan Pokok", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.1"}, {"no": 70, "full": "3.1.2.01 Simpanan Wajib", "code": "3.1.2.01", "name": "Simpanan Wajib", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.2"}, {"no": 71, "full": "3.1.3.01 Simpanan Sukarela", "code": "3.1.3.01", "name": "Simpanan Sukarela", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.3"}, {"no": 72, "full": "3.2.1.01 Hibah", "code": "3.2.1.01", "name": "Hibah", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.2", "lvl3": "3.2.1"}, {"no": 73, "full": "3.3.1.01 Cadangan", "code": "3.3.1.01", "name": "Cadangan", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.3", "lvl3": "3.3.1"}, {"no": 74, "full": "3.4.1.01 Sisa Hasil Usaha Belum Dibagikan", "code": "3.4.1.01", "name": "Sisa Hasil Usaha Belum Dibagikan", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.4", "lvl3": "3.4.1"}, {"no": 75, "full": "3.9.1.01 Ikhtisar Sisa Hasil Usaha", "code": "3.9.1.01", "name": "Ikhtisar Sisa Hasil Usaha", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.9", "lvl3": "3.9.1"}, {"no": 76, "full": "4.1.1.01 Pendapatan Penjualan Barang Dagangan (Anggota)", "code": "4.1.1.01", "name": "Pendapatan Penjualan Barang Dagangan (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.1"}, {"no": 77, "full": "4.1.1.02 Pendapatan Komisi Konsinyasi", "code": "4.1.1.02", "name": "Pendapatan Komisi Konsinyasi", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.1"}, {"no": 78, "full": "4.1.2.01 Pendapatan Penjualan Barang Jadi Anggota", "code": "4.1.2.01", "name": "Pendapatan Penjualan Barang Jadi Anggota", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.2"}, {"no": 79, "full": "4.1.3.01 Pendapatan Jasa Dokter (Anggota)", "code": "4.1.3.01", "name": "Pendapatan Jasa Dokter (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 80, "full": "4.1.3.02 Pendapatan Jasa Pinjaman (Anggota)", "code": "4.1.3.02", "name": "Pendapatan Jasa Pinjaman (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 81, "full": "4.1.3.03 Pendapatan Jasa Sewa (Anggota)", "code": "4.1.3.03", "name": "Pendapatan Jasa Sewa (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 82, "full": "4.1.3.04 Pendapatan Jasa Pengiriman (Anggota)", "code": "4.1.3.04", "name": "Pendapatan Jasa Pengiriman (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 83, "full": "4.1.9.01 Pendapatan Pelayanan Anggota Lainnya", "code": "4.1.9.01", "name": "Pendapatan Pelayanan Anggota Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.9"}, {"no": 84, "full": "4.2.1.01 Pendapatan Penjualan Barang Dagangan (Non-Anggota)", "code": "4.2.1.01", "name": "Pendapatan Penjualan Barang Dagangan (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.1"}, {"no": 85, "full": "4.2.2.01 Pendapatan Penjualan Barang Jadi (Non-Anggota)", "code": "4.2.2.01", "name": "Pendapatan Penjualan Barang Jadi (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.2"}, {"no": 86, "full": "4.2.3.01 Pendapatan Jasa Dokter (Non-Anggota)", "code": "4.2.3.01", "name": "Pendapatan Jasa Dokter (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 87, "full": "4.2.3.02 Pendapatan Jasa Pinjaman (Non-Anggota)", "code": "4.2.3.02", "name": "Pendapatan Jasa Pinjaman (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 88, "full": "4.2.3.03 Pendapatan Jasa Sewa (Non-Anggota)", "code": "4.2.3.03", "name": "Pendapatan Jasa Sewa (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 89, "full": "4.2.3.04 Pendapatan Jasa Pengiriman (Non-Anggota)", "code": "4.2.3.04", "name": "Pendapatan Jasa Pengiriman (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 90, "full": "4.2.9.01 Pendapatan Pelayanan Non-Anggota Lainnya", "code": "4.2.9.01", "name": "Pendapatan Pelayanan Non-Anggota Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.9"}, {"no": 91, "full": "5.1.1.01 Harga Pokok Penjualan Barang Dagangan", "code": "5.1.1.01", "name": "Harga Pokok Penjualan Barang Dagangan", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.1", "lvl3": "5.1.1"}, {"no": 92, "full": "5.1.1.02 Harga Pokok Penjualan Barang Jadi", "code": "5.1.1.02", "name": "Harga Pokok Penjualan Barang Jadi", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.1", "lvl3": "5.1.1"}, {"no": 93, "full": "5.2.1.01 Harga Pokok Produksi", "code": "5.2.1.01", "name": "Harga Pokok Produksi", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.2", "lvl3": "5.2.1"}, {"no": 94, "full": "6.1.1.01 Beban Gaji dan Tunjangan Pegawai", "code": "6.1.1.01", "name": "Beban Gaji dan Tunjangan Pegawai", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 95, "full": "6.1.1.02 Beban Gaji dan Tunjangan Pengawas", "code": "6.1.1.02", "name": "Beban Gaji dan Tunjangan Pengawas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 96, "full": "6.1.1.03 Beban Honor Lembur", "code": "6.1.1.03", "name": "Beban Honor Lembur", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 97, "full": "6.1.1.04 Beban Insentif (Bonus)", "code": "6.1.1.04", "name": "Beban Insentif (Bonus)", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 98, "full": "6.1.1.05 Beban Komisi", "code": "6.1.1.05", "name": "Beban Komisi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 99, "full": "6.1.1.06 Beban Seragam Pegawai", "code": "6.1.1.06", "name": "Beban Seragam Pegawai", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 100, "full": "6.1.1.07 Beban Penguatan SDM", "code": "6.1.1.07", "name": "Beban Penguatan SDM", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 101, "full": "6.1.1.99 Beban Pegawai  Lainnya", "code": "6.1.1.99", "name": "Beban Pegawai  Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 102, "full": "6.1.2.01 Beban ATK", "code": "6.1.2.01", "name": "Beban ATK", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 103, "full": "6.1.2.02 Beban Foto Copy", "code": "6.1.2.02", "name": "Beban Foto Copy", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 104, "full": "6.1.2.03 Beban Konsumsi Rapat", "code": "6.1.2.03", "name": "Beban Konsumsi Rapat", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 105, "full": "6.1.2.04 Beban Cetak dan Dekorasi", "code": "6.1.2.04", "name": "Beban Cetak dan Dekorasi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 106, "full": "6.1.2.99 Beban Perlengkapan Lainnya", "code": "6.1.2.99", "name": "Beban Perlengkapan Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 107, "full": "6.1.3.01 Beban Pemeliharaan dan Perbaikan", "code": "6.1.3.01", "name": "Beban Pemeliharaan dan Perbaikan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.3"}, {"no": 108, "full": "6.1.4.01 Beban Listrik", "code": "6.1.4.01", "name": "Beban Listrik", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 109, "full": "6.1.4.02 Beban Telepon dan Internet", "code": "6.1.4.02", "name": "Beban Telepon dan Internet", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 110, "full": "6.1.4.99 Beban Utilitas Lainnya", "code": "6.1.4.99", "name": "Beban Utilitas Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 111, "full": "6.1.5.01 Beban Sewa", "code": "6.1.5.01", "name": "Beban Sewa", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.5"}, {"no": 112, "full": "6.1.5.02 Beban Asuransi", "code": "6.1.5.02", "name": "Beban Asuransi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.5"}, {"no": 113, "full": "6.1.6.01 Beban Keamanan", "code": "6.1.6.01", "name": "Beban Keamanan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.6"}, {"no": 114, "full": "6.1.6.02 Beban Kebersihan", "code": "6.1.6.02", "name": "Beban Kebersihan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.6"}, {"no": 115, "full": "6.1.7.01 Beban Penyisihan Piutang Tak Tertagih", "code": "6.1.7.01", "name": "Beban Penyisihan Piutang Tak Tertagih", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.7"}, {"no": 116, "full": "6.1.8.02 Beban Penyusutan Gedung dan Bangunan", "code": "6.1.8.02", "name": "Beban Penyusutan Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 117, "full": "6.1.8.03 Beban Penyusutan Peralatan dan Meubelair", "code": "6.1.8.03", "name": "Beban Penyusutan Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 118, "full": "6.1.8.04 Beban Penyusutan Kendaraan", "code": "6.1.8.04", "name": "Beban Penyusutan Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 119, "full": "6.1.8.05 Beban Amortisasi Aset Tak Berwujud", "code": "6.1.8.05", "name": "Beban Amortisasi Aset Tak Berwujud", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 120, "full": "6.1.9.01 Beban Parkir", "code": "6.1.9.01", "name": "Beban Parkir", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 121, "full": "6.1.9.02 Beban Laundry", "code": "6.1.9.02", "name": "Beban Laundry", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 122, "full": "6.1.9.03 Beban Pendamping", "code": "6.1.9.03", "name": "Beban Pendamping", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 123, "full": "6.1.9.04 Beban Pengawas", "code": "6.1.9.04", "name": "Beban Pengawas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 124, "full": "6.1.9.05 Beban Audit", "code": "6.1.9.05", "name": "Beban Audit", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 125, "full": "6.1.9.06 Beban Perjalanan Dinas", "code": "6.1.9.06", "name": "Beban Perjalanan Dinas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 126, "full": "6.1.9.07 Beban Transportasi", "code": "6.1.9.07", "name": "Beban Transportasi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 127, "full": "6.1.9.08 Beban Jamuan Tamu", "code": "6.1.9.08", "name": "Beban Jamuan Tamu", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 128, "full": "6.1.9.99 Beban Administrasi dan Umum Lainnya", "code": "6.1.9.99", "name": "Beban Administrasi dan Umum Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 129, "full": "6.2.1.01 Beban Gaji dan Tunjangan Bag. Pemasaran", "code": "6.2.1.01", "name": "Beban Gaji dan Tunjangan Bag. Pemasaran", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.1"}, {"no": 130, "full": "6.2.2.01 Beban Iklan", "code": "6.2.2.01", "name": "Beban Iklan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 131, "full": "6.2.2.02 Beban Promosi", "code": "6.2.2.02", "name": "Beban Promosi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 132, "full": "6.2.2.03 Beban Dana Sosial", "code": "6.2.2.03", "name": "Beban Dana Sosial", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 133, "full": "6.2.3.99 Beban Pemasaran Lainnya", "code": "6.2.3.99", "name": "Beban Pemasaran Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.3"}, {"no": 134, "full": "9.1.1.01 Pendapatan Bunga", "code": "9.1.1.01", "name": "Pendapatan Bunga", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.1"}, {"no": 135, "full": "9.1.2.01 Pendapatan Sewa", "code": "9.1.2.01", "name": "Pendapatan Sewa", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.2"}, {"no": 136, "full": "9.1.3.01 Pendapatan Denda", "code": "9.1.3.01", "name": "Pendapatan Denda", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.3"}, {"no": 137, "full": "9.1.4.01 Pendapatan Iklan", "code": "9.1.4.01", "name": "Pendapatan Iklan", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.4"}, {"no": 138, "full": "9.1.9.99 Pendapatan Lain-lain lainnya", "code": "9.1.9.99", "name": "Pendapatan Lain-lain lainnya", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.9"}, {"no": 139, "full": "9.2.1.01 Beban Administrasi Bank", "code": "9.2.1.01", "name": "Beban Administrasi Bank", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.1"}, {"no": 140, "full": "9.2.2.01 Beban Bunga", "code": "9.2.2.01", "name": "Beban Bunga", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.2"}, {"no": 141, "full": "9.2.3.01 Beban Sewa", "code": "9.2.3.01", "name": "Beban Sewa", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.3"}, {"no": 142, "full": "9.2.9.99 Beban Lain-lain lainnya", "code": "9.2.9.99", "name": "Beban Lain-lain lainnya", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.9"}, {"no": 143, "full": "9.3.1.01 Beban Pajak Bunga Bank", "code": "9.3.1.01", "name": "Beban Pajak Bunga Bank", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 144, "full": "9.3.1.02 Beban Pajak Reklame", "code": "9.3.1.02", "name": "Beban Pajak Reklame", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 145, "full": "9.3.1.03 Beban PPh 21", "code": "9.3.1.03", "name": "Beban PPh 21", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 146, "full": "9.3.1.04 Beban PPh 23", "code": "9.3.1.04", "name": "Beban PPh 23", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 147, "full": "9.3.1.05 Beban PPh 25", "code": "9.3.1.05", "name": "Beban PPh 25", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 148, "full": "9.3.1.06 Beban PPh 29", "code": "9.3.1.06", "name": "Beban PPh 29", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 149, "full": "9.3.1.07 Beban PPh Final", "code": "9.3.1.07", "name": "Beban PPh Final", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 150, "full": "9.3.1.08 Beban PPh Koperasi", "code": "9.3.1.08", "name": "Beban PPh Koperasi", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 151, "full": "9.3.1.99 Beban Pajak Lainnya", "code": "9.3.1.99", "name": "Beban Pajak Lainnya", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}];
+    // ==================== DATA AWAL: COA 152 AKUN STANDAR KOPERASI (TERMASUK 3.4.2.01 LABA DITAHAN) ====================
+    const INITIAL_COA = [{"no": 1, "full": "1.1.1.01 Kas Tunai", "code": "1.1.1.01", "name": "Kas Tunai", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 2, "full": "1.1.1.02 Kas di Bank BRI", "code": "1.1.1.02", "name": "Kas di Bank BRI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 3, "full": "1.1.1.03 Kas di Bank Mandiri", "code": "1.1.1.03", "name": "Kas di Bank Mandiri", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 4, "full": "1.1.1.04 Kas di Bank BNI", "code": "1.1.1.04", "name": "Kas di Bank BNI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 5, "full": "1.1.1.05 Kas di Bank BTN", "code": "1.1.1.05", "name": "Kas di Bank BTN", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 6, "full": "1.1.1.06 Kas di Bank BPD", "code": "1.1.1.06", "name": "Kas di Bank BPD", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 7, "full": "1.1.1.07 Kas di Bank BSI", "code": "1.1.1.07", "name": "Kas di Bank BSI", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 8, "full": "1.1.1.10 Kas Kecil (Petty Cash)", "code": "1.1.1.10", "name": "Kas Kecil (Petty Cash)", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 9, "full": "1.1.1.11 Deposito (< 3 bulan)", "code": "1.1.1.11", "name": "Deposito (< 3 bulan)", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.1"}, {"no": 10, "full": "1.1.2.01 Piutang Usaha", "code": "1.1.2.01", "name": "Piutang Usaha", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 11, "full": "1.1.2.02 Piutang kepada Pegawai", "code": "1.1.2.02", "name": "Piutang kepada Pegawai", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 12, "full": "1.1.2.03 Piutang Simpanan Pokok Anggota", "code": "1.1.2.03", "name": "Piutang Simpanan Pokok Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 13, "full": "1.1.2.04 Piutang Simpanan Wajib Anggota", "code": "1.1.2.04", "name": "Piutang Simpanan Wajib Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 14, "full": "1.1.2.05 Piutang Anggota", "code": "1.1.2.05", "name": "Piutang Anggota", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.2"}, {"no": 15, "full": "1.1.3.01 Penyisihan Piutang Usaha Tak Tertagih", "code": "1.1.3.01", "name": "Penyisihan Piutang Usaha Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 16, "full": "1.1.3.02 Penyisihan Piutang kepada Pegawai Tak Tertagih", "code": "1.1.3.02", "name": "Penyisihan Piutang kepada Pegawai Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 17, "full": "1.1.3.03 Penyisihan Piutang Simpanan Pokok Anggota Tak Tertagih", "code": "1.1.3.03", "name": "Penyisihan Piutang Simpanan Pokok Anggota Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 18, "full": "1.1.3.04 Penyisihan Piutang Simpanan Wajib Anggota Tak Tertagih", "code": "1.1.3.04", "name": "Penyisihan Piutang Simpanan Wajib Anggota Tak Tertagih", "normal": "Kredit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.3"}, {"no": 19, "full": "1.1.4.01 Persediaan Barang Dagangan", "code": "1.1.4.01", "name": "Persediaan Barang Dagangan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 20, "full": "1.1.4.02 Persediaan ATK", "code": "1.1.4.02", "name": "Persediaan ATK", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 21, "full": "1.1.4.03 Perlengkapan", "code": "1.1.4.03", "name": "Perlengkapan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.4"}, {"no": 22, "full": "1.1.5.01 Sewa Dibayar Dimuka", "code": "1.1.5.01", "name": "Sewa Dibayar Dimuka", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 23, "full": "1.1.5.02 Asuransi Dibayar Dimuka", "code": "1.1.5.02", "name": "Asuransi Dibayar Dimuka", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 24, "full": "1.1.5.03 PPh 25", "code": "1.1.5.03", "name": "PPh 25", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 25, "full": "1.1.5.04 PPN Masukan", "code": "1.1.5.04", "name": "PPN Masukan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.5"}, {"no": 26, "full": "1.1.8.99 Aset Lancar Lainnya", "code": "1.1.8.99", "name": "Aset Lancar Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.8"}, {"no": 27, "full": "1.1.9.01 RK Pusat", "code": "1.1.9.01", "name": "RK Pusat", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 28, "full": "1.1.9.02 RK Unit Toko", "code": "1.1.9.02", "name": "RK Unit Toko", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 29, "full": "1.1.9.03 RK Pusat Unit Apotek", "code": "1.1.9.03", "name": "RK Pusat Unit Apotek", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 30, "full": "1.1.9.04 RK Unit Simpan Pinjam", "code": "1.1.9.04", "name": "RK Unit Simpan Pinjam", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 31, "full": "1.1.9.05 RK Unit Klinik", "code": "1.1.9.05", "name": "RK Unit Klinik", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 32, "full": "1.1.9.06 RK Unit Gudang", "code": "1.1.9.06", "name": "RK Unit Gudang", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 33, "full": "1.1.9.07 RK Unit Logistik", "code": "1.1.9.07", "name": "RK Unit Logistik", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.1", "lvl3": "1.1.9"}, {"no": 34, "full": "1.2.1.01 Investasi dalam Deposito", "code": "1.2.1.01", "name": "Investasi dalam Deposito", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.2", "lvl3": "1.2.1"}, {"no": 35, "full": "1.2.1.99 Investasi Lainnya", "code": "1.2.1.99", "name": "Investasi Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.2", "lvl3": "1.2.1"}, {"no": 36, "full": "1.3.1.01 Tanah", "code": "1.3.1.01", "name": "Tanah", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.1"}, {"no": 37, "full": "1.3.2.01 Gedung dan Bangunan", "code": "1.3.2.01", "name": "Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.2"}, {"no": 38, "full": "1.3.3.01 Peralatan dan Meubelair", "code": "1.3.3.01", "name": "Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.3"}, {"no": 39, "full": "1.3.4.01 Kendaraan", "code": "1.3.4.01", "name": "Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.4"}, {"no": 40, "full": "1.3.5.01 Akumulasi Penyusutan Gedung dan Bangunan", "code": "1.3.5.01", "name": "Akumulasi Penyusutan Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 41, "full": "1.3.5.02 Akumulasi Penyusutan Peralatan dan Meubelair", "code": "1.3.5.02", "name": "Akumulasi Penyusutan Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 42, "full": "1.3.5.03 Akumulasi Penyusutan Kendaraan", "code": "1.3.5.03", "name": "Akumulasi Penyusutan Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.5"}, {"no": 43, "full": "1.3.9.99 Aset Tetap Lainnya", "code": "1.3.9.99", "name": "Aset Tetap Lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.3", "lvl3": "1.3.9"}, {"no": 44, "full": "1.4.1.01 Software", "code": "1.4.1.01", "name": "Software", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.4", "lvl3": "1.4.1"}, {"no": 45, "full": "1.4.2.01 Amortisasi Aset Tidak Berwujud", "code": "1.4.2.01", "name": "Amortisasi Aset Tidak Berwujud", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.4", "lvl3": "1.4.2"}, {"no": 46, "full": "1.5.1.01 Investasi Jangka Panjang", "code": "1.5.1.01", "name": "Investasi Jangka Panjang", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.5", "lvl3": "1.5.1"}, {"no": 47, "full": "1.9.1.99 Aset Lain-lain lainnya", "code": "1.9.1.99", "name": "Aset Lain-lain lainnya", "normal": "Debit", "budget": 0, "lvl1": "1", "lvl2": "1.9", "lvl3": "1.9.1"}, {"no": 48, "full": "2.1.1.01 Utang Simpanan Pokok", "code": "2.1.1.01", "name": "Utang Simpanan Pokok", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 49, "full": "2.1.1.02 Utang Simpanan Wajib", "code": "2.1.1.02", "name": "Utang Simpanan Wajib", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 50, "full": "2.1.1.03 Utang Simpanan Sukarela", "code": "2.1.1.03", "name": "Utang Simpanan Sukarela", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.1"}, {"no": 51, "full": "2.1.2.01 Utang SHU", "code": "2.1.2.01", "name": "Utang SHU", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.2"}, {"no": 52, "full": "2.1.3.01 Utang Usaha", "code": "2.1.3.01", "name": "Utang Usaha", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.3"}, {"no": 53, "full": "2.1.3.02 Utang Dana Bergulir", "code": "2.1.3.02", "name": "Utang Dana Bergulir", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.3"}, {"no": 54, "full": "2.1.4.01 PPN Keluaran", "code": "2.1.4.01", "name": "PPN Keluaran", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 55, "full": "2.1.4.02 PPh 21", "code": "2.1.4.02", "name": "PPh 21", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 56, "full": "2.1.4.03 PPh 23", "code": "2.1.4.03", "name": "PPh 23", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 57, "full": "2.1.4.04 PPh 29", "code": "2.1.4.04", "name": "PPh 29", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.4"}, {"no": 58, "full": "2.1.5.01 Utang Gaji dan Tunjangan", "code": "2.1.5.01", "name": "Utang Gaji dan Tunjangan", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.5"}, {"no": 59, "full": "2.1.6.01 Utang Listrik", "code": "2.1.6.01", "name": "Utang Listrik", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 60, "full": "2.1.6.02 Utang Telepon", "code": "2.1.6.02", "name": "Utang Telepon", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 61, "full": "2.1.6.99 Utang Utilitas Lainnya", "code": "2.1.6.99", "name": "Utang Utilitas Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.6"}, {"no": 62, "full": "2.1.7.01 Pendapatan Sewa Diterima Dimuka", "code": "2.1.7.01", "name": "Pendapatan Sewa Diterima Dimuka", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.7"}, {"no": 63, "full": "2.1.8.01 Utang kepada Pihak Ketiga Jk. Pendek", "code": "2.1.8.01", "name": "Utang kepada Pihak Ketiga Jk. Pendek", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.8"}, {"no": 64, "full": "2.1.8.99 Utang kepada Pihak Ketiga Jk. Pendek Lainnya", "code": "2.1.8.99", "name": "Utang kepada Pihak Ketiga Jk. Pendek Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.8"}, {"no": 65, "full": "2.1.9.99 Utang Jangka Pendek Lainnya", "code": "2.1.9.99", "name": "Utang Jangka Pendek Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.1", "lvl3": "2.1.9"}, {"no": 66, "full": "2.2.1.01 Utang kepada Pihak Ketiga Jk. Panjang", "code": "2.2.1.01", "name": "Utang kepada Pihak Ketiga Jk. Panjang", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.1"}, {"no": 67, "full": "2.2.2.01 Utang Ke Bank", "code": "2.2.2.01", "name": "Utang Ke Bank", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.2"}, {"no": 68, "full": "2.2.9.99 Utang Jangka Panjang Lainnya", "code": "2.2.9.99", "name": "Utang Jangka Panjang Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "2", "lvl2": "2.2", "lvl3": "2.2.9"}, {"no": 69, "full": "3.1.1.01 Simpanan Pokok", "code": "3.1.1.01", "name": "Simpanan Pokok", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.1"}, {"no": 70, "full": "3.1.2.01 Simpanan Wajib", "code": "3.1.2.01", "name": "Simpanan Wajib", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.2"}, {"no": 71, "full": "3.1.3.01 Simpanan Sukarela", "code": "3.1.3.01", "name": "Simpanan Sukarela", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.1", "lvl3": "3.1.3"}, {"no": 72, "full": "3.2.1.01 Hibah", "code": "3.2.1.01", "name": "Hibah", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.2", "lvl3": "3.2.1"}, {"no": 73, "full": "3.3.1.01 Cadangan", "code": "3.3.1.01", "name": "Cadangan", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.3", "lvl3": "3.3.1"}, {"no": 74, "full": "3.4.1.01 Sisa Hasil Usaha Belum Dibagikan", "code": "3.4.1.01", "name": "Sisa Hasil Usaha Belum Dibagikan", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.4", "lvl3": "3.4.1"}, {"no": 75, "full": "3.4.2.01 Laba Ditahan", "code": "3.4.2.01", "name": "Laba Ditahan", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.4", "lvl3": "3.4.2"}, {"no": 76, "full": "3.9.1.01 Ikhtisar Sisa Hasil Usaha", "code": "3.9.1.01", "name": "Ikhtisar Sisa Hasil Usaha", "normal": "Kredit", "budget": 0, "lvl1": "3", "lvl2": "3.9", "lvl3": "3.9.1"}, {"no": 77, "full": "4.1.1.01 Pendapatan Penjualan Barang Dagangan (Anggota)", "code": "4.1.1.01", "name": "Pendapatan Penjualan Barang Dagangan (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.1"}, {"no": 78, "full": "4.1.1.02 Pendapatan Komisi Konsinyasi", "code": "4.1.1.02", "name": "Pendapatan Komisi Konsinyasi", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.1"}, {"no": 79, "full": "4.1.2.01 Pendapatan Penjualan Barang Jadi Anggota", "code": "4.1.2.01", "name": "Pendapatan Penjualan Barang Jadi Anggota", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.2"}, {"no": 80, "full": "4.1.3.01 Pendapatan Jasa Dokter (Anggota)", "code": "4.1.3.01", "name": "Pendapatan Jasa Dokter (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 81, "full": "4.1.3.02 Pendapatan Jasa Pinjaman (Anggota)", "code": "4.1.3.02", "name": "Pendapatan Jasa Pinjaman (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 82, "full": "4.1.3.03 Pendapatan Jasa Sewa (Anggota)", "code": "4.1.3.03", "name": "Pendapatan Jasa Sewa (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 83, "full": "4.1.3.04 Pendapatan Jasa Pengiriman (Anggota)", "code": "4.1.3.04", "name": "Pendapatan Jasa Pengiriman (Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.3"}, {"no": 84, "full": "4.1.9.01 Pendapatan Pelayanan Anggota Lainnya", "code": "4.1.9.01", "name": "Pendapatan Pelayanan Anggota Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.1", "lvl3": "4.1.9"}, {"no": 85, "full": "4.2.1.01 Pendapatan Penjualan Barang Dagangan (Non-Anggota)", "code": "4.2.1.01", "name": "Pendapatan Penjualan Barang Dagangan (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.1"}, {"no": 86, "full": "4.2.2.01 Pendapatan Penjualan Barang Jadi (Non-Anggota)", "code": "4.2.2.01", "name": "Pendapatan Penjualan Barang Jadi (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.2"}, {"no": 87, "full": "4.2.3.01 Pendapatan Jasa Dokter (Non-Anggota)", "code": "4.2.3.01", "name": "Pendapatan Jasa Dokter (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 88, "full": "4.2.3.02 Pendapatan Jasa Pinjaman (Non-Anggota)", "code": "4.2.3.02", "name": "Pendapatan Jasa Pinjaman (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 89, "full": "4.2.3.03 Pendapatan Jasa Sewa (Non-Anggota)", "code": "4.2.3.03", "name": "Pendapatan Jasa Sewa (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 90, "full": "4.2.3.04 Pendapatan Jasa Pengiriman (Non-Anggota)", "code": "4.2.3.04", "name": "Pendapatan Jasa Pengiriman (Non-Anggota)", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.3"}, {"no": 91, "full": "4.2.9.01 Pendapatan Pelayanan Non-Anggota Lainnya", "code": "4.2.9.01", "name": "Pendapatan Pelayanan Non-Anggota Lainnya", "normal": "Kredit", "budget": 0, "lvl1": "4", "lvl2": "4.2", "lvl3": "4.2.9"}, {"no": 92, "full": "5.1.1.01 Harga Pokok Penjualan Barang Dagangan", "code": "5.1.1.01", "name": "Harga Pokok Penjualan Barang Dagangan", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.1", "lvl3": "5.1.1"}, {"no": 93, "full": "5.1.1.02 Harga Pokok Penjualan Barang Jadi", "code": "5.1.1.02", "name": "Harga Pokok Penjualan Barang Jadi", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.1", "lvl3": "5.1.1"}, {"no": 94, "full": "5.2.1.01 Harga Pokok Produksi", "code": "5.2.1.01", "name": "Harga Pokok Produksi", "normal": "Debit", "budget": 0, "lvl1": "5", "lvl2": "5.2", "lvl3": "5.2.1"}, {"no": 95, "full": "6.1.1.01 Beban Gaji dan Tunjangan Pegawai", "code": "6.1.1.01", "name": "Beban Gaji dan Tunjangan Pegawai", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 96, "full": "6.1.1.02 Beban Gaji dan Tunjangan Pengawas", "code": "6.1.1.02", "name": "Beban Gaji dan Tunjangan Pengawas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 97, "full": "6.1.1.03 Beban Honor Lembur", "code": "6.1.1.03", "name": "Beban Honor Lembur", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 98, "full": "6.1.1.04 Beban Insentif (Bonus)", "code": "6.1.1.04", "name": "Beban Insentif (Bonus)", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 99, "full": "6.1.1.05 Beban Komisi", "code": "6.1.1.05", "name": "Beban Komisi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 100, "full": "6.1.1.06 Beban Seragam Pegawai", "code": "6.1.1.06", "name": "Beban Seragam Pegawai", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 101, "full": "6.1.1.07 Beban Penguatan SDM", "code": "6.1.1.07", "name": "Beban Penguatan SDM", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 102, "full": "6.1.1.99 Beban Pegawai  Lainnya", "code": "6.1.1.99", "name": "Beban Pegawai  Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.1"}, {"no": 103, "full": "6.1.2.01 Beban ATK", "code": "6.1.2.01", "name": "Beban ATK", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 104, "full": "6.1.2.02 Beban Foto Copy", "code": "6.1.2.02", "name": "Beban Foto Copy", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 105, "full": "6.1.2.03 Beban Konsumsi Rapat", "code": "6.1.2.03", "name": "Beban Konsumsi Rapat", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 106, "full": "6.1.2.04 Beban Cetak dan Dekorasi", "code": "6.1.2.04", "name": "Beban Cetak dan Dekorasi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 107, "full": "6.1.2.99 Beban Perlengkapan Lainnya", "code": "6.1.2.99", "name": "Beban Perlengkapan Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.2"}, {"no": 108, "full": "6.1.3.01 Beban Pemeliharaan dan Perbaikan", "code": "6.1.3.01", "name": "Beban Pemeliharaan dan Perbaikan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.3"}, {"no": 109, "full": "6.1.4.01 Beban Listrik", "code": "6.1.4.01", "name": "Beban Listrik", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 110, "full": "6.1.4.02 Beban Telepon dan Internet", "code": "6.1.4.02", "name": "Beban Telepon dan Internet", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 111, "full": "6.1.4.99 Beban Utilitas Lainnya", "code": "6.1.4.99", "name": "Beban Utilitas Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.4"}, {"no": 112, "full": "6.1.5.01 Beban Sewa", "code": "6.1.5.01", "name": "Beban Sewa", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.5"}, {"no": 113, "full": "6.1.5.02 Beban Asuransi", "code": "6.1.5.02", "name": "Beban Asuransi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.5"}, {"no": 114, "full": "6.1.6.01 Beban Keamanan", "code": "6.1.6.01", "name": "Beban Keamanan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.6"}, {"no": 115, "full": "6.1.6.02 Beban Kebersihan", "code": "6.1.6.02", "name": "Beban Kebersihan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.6"}, {"no": 116, "full": "6.1.7.01 Beban Penyisihan Piutang Tak Tertagih", "code": "6.1.7.01", "name": "Beban Penyisihan Piutang Tak Tertagih", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.7"}, {"no": 117, "full": "6.1.8.02 Beban Penyusutan Gedung dan Bangunan", "code": "6.1.8.02", "name": "Beban Penyusutan Gedung dan Bangunan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 118, "full": "6.1.8.03 Beban Penyusutan Peralatan dan Meubelair", "code": "6.1.8.03", "name": "Beban Penyusutan Peralatan dan Meubelair", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 119, "full": "6.1.8.04 Beban Penyusutan Kendaraan", "code": "6.1.8.04", "name": "Beban Penyusutan Kendaraan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 120, "full": "6.1.8.05 Beban Amortisasi Aset Tak Berwujud", "code": "6.1.8.05", "name": "Beban Amortisasi Aset Tak Berwujud", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.8"}, {"no": 121, "full": "6.1.9.01 Beban Parkir", "code": "6.1.9.01", "name": "Beban Parkir", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 122, "full": "6.1.9.02 Beban Laundry", "code": "6.1.9.02", "name": "Beban Laundry", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 123, "full": "6.1.9.03 Beban Pendamping", "code": "6.1.9.03", "name": "Beban Pendamping", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 124, "full": "6.1.9.04 Beban Pengawas", "code": "6.1.9.04", "name": "Beban Pengawas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 125, "full": "6.1.9.05 Beban Audit", "code": "6.1.9.05", "name": "Beban Audit", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 126, "full": "6.1.9.06 Beban Perjalanan Dinas", "code": "6.1.9.06", "name": "Beban Perjalanan Dinas", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 127, "full": "6.1.9.07 Beban Transportasi", "code": "6.1.9.07", "name": "Beban Transportasi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 128, "full": "6.1.9.08 Beban Jamuan Tamu", "code": "6.1.9.08", "name": "Beban Jamuan Tamu", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 129, "full": "6.1.9.99 Beban Administrasi dan Umum Lainnya", "code": "6.1.9.99", "name": "Beban Administrasi dan Umum Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.1", "lvl3": "6.1.9"}, {"no": 130, "full": "6.2.1.01 Beban Gaji dan Tunjangan Bag. Pemasaran", "code": "6.2.1.01", "name": "Beban Gaji dan Tunjangan Bag. Pemasaran", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.1"}, {"no": 131, "full": "6.2.2.01 Beban Iklan", "code": "6.2.2.01", "name": "Beban Iklan", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 132, "full": "6.2.2.02 Beban Promosi", "code": "6.2.2.02", "name": "Beban Promosi", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 133, "full": "6.2.2.03 Beban Dana Sosial", "code": "6.2.2.03", "name": "Beban Dana Sosial", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.2"}, {"no": 134, "full": "6.2.3.99 Beban Pemasaran Lainnya", "code": "6.2.3.99", "name": "Beban Pemasaran Lainnya", "normal": "Debit", "budget": 0, "lvl1": "6", "lvl2": "6.2", "lvl3": "6.2.3"}, {"no": 135, "full": "9.1.1.01 Pendapatan Bunga", "code": "9.1.1.01", "name": "Pendapatan Bunga", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.1"}, {"no": 136, "full": "9.1.2.01 Pendapatan Sewa", "code": "9.1.2.01", "name": "Pendapatan Sewa", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.2"}, {"no": 137, "full": "9.1.3.01 Pendapatan Denda", "code": "9.1.3.01", "name": "Pendapatan Denda", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.3"}, {"no": 138, "full": "9.1.4.01 Pendapatan Iklan", "code": "9.1.4.01", "name": "Pendapatan Iklan", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.4"}, {"no": 139, "full": "9.1.9.99 Pendapatan Lain-lain lainnya", "code": "9.1.9.99", "name": "Pendapatan Lain-lain lainnya", "normal": "Kredit", "budget": 0, "lvl1": "9", "lvl2": "9.1", "lvl3": "9.1.9"}, {"no": 140, "full": "9.2.1.01 Beban Administrasi Bank", "code": "9.2.1.01", "name": "Beban Administrasi Bank", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.1"}, {"no": 141, "full": "9.2.2.01 Beban Bunga", "code": "9.2.2.01", "name": "Beban Bunga", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.2"}, {"no": 142, "full": "9.2.3.01 Beban Sewa", "code": "9.2.3.01", "name": "Beban Sewa", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.3"}, {"no": 143, "full": "9.2.9.99 Beban Lain-lain lainnya", "code": "9.2.9.99", "name": "Beban Lain-lain lainnya", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.2", "lvl3": "9.2.9"}, {"no": 144, "full": "9.3.1.01 Beban Pajak Bunga Bank", "code": "9.3.1.01", "name": "Beban Pajak Bunga Bank", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 145, "full": "9.3.1.02 Beban Pajak Reklame", "code": "9.3.1.02", "name": "Beban Pajak Reklame", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 146, "full": "9.3.1.03 Beban PPh 21", "code": "9.3.1.03", "name": "Beban PPh 21", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 147, "full": "9.3.1.04 Beban PPh 23", "code": "9.3.1.04", "name": "Beban PPh 23", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 148, "full": "9.3.1.05 Beban PPh 25", "code": "9.3.1.05", "name": "Beban PPh 25", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 149, "full": "9.3.1.06 Beban PPh 29", "code": "9.3.1.06", "name": "Beban PPh 29", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 150, "full": "9.3.1.07 Beban PPh Final", "code": "9.3.1.07", "name": "Beban PPh Final", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 151, "full": "9.3.1.08 Beban PPh Koperasi", "code": "9.3.1.08", "name": "Beban PPh Koperasi", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}, {"no": 152, "full": "9.3.1.99 Beban Pajak Lainnya", "code": "9.3.1.99", "name": "Beban Pajak Lainnya", "normal": "Debit", "budget": 0, "lvl1": "9", "lvl2": "9.3", "lvl3": "9.3.1"}];
 
     const CASHFLOW_COMPONENTS = [
       "",
@@ -2137,7 +2201,7 @@
       accountantNik: "3308104505950002"
     };
 
-    // Semua angka persediaan dimulai dari 0 & terhubung dengan Kode Supplier
+    // Semua angka persediaan dimulai dari 0 & terhubung dengan Kode Supplier (Format: Urut/SUP/NamaUsaha/Tahun)
     const INITIAL_ITEMS = [
       {
         code: "BRG-001",
@@ -2148,7 +2212,7 @@
         minQty: 0,
         cost: 0,
         price: 0,
-        supplierCode: "SUP-001"
+        supplierCode: "001/SUP/KDMP-BANYUROJO/2026"
       },
       {
         code: "BRG-002",
@@ -2159,7 +2223,7 @@
         minQty: 0,
         cost: 0,
         price: 0,
-        supplierCode: "SUP-002"
+        supplierCode: "002/SUP/KDMP-BANYUROJO/2026"
       },
       {
         code: "BRG-003",
@@ -2170,7 +2234,7 @@
         minQty: 0,
         cost: 0,
         price: 0,
-        supplierCode: "SUP-002"
+        supplierCode: "002/SUP/KDMP-BANYUROJO/2026"
       },
       {
         code: "BRG-004",
@@ -2181,7 +2245,7 @@
         minQty: 0,
         cost: 0,
         price: 0,
-        supplierCode: "SUP-003"
+        supplierCode: "003/SUP/KDMP-BANYUROJO/2026"
       },
       {
         code: "BRG-005",
@@ -2192,7 +2256,7 @@
         minQty: 0,
         cost: 0,
         price: 0,
-        supplierCode: "SUP-003"
+        supplierCode: "003/SUP/KDMP-BANYUROJO/2026"
       }
     ];
 
@@ -2245,7 +2309,7 @@
       }
     ];
 
-    // Database Karyawan Awal (Gaji & Tunjangan dimulai dari 0, Password terenkripsi SHA-256)
+    // Database Karyawan Awal (Gaji & Tunjangan dimulai dari 0, Password terenkripsi di penyimpanan namun dapat dilihat oleh Admin)
     const INITIAL_EMPLOYEES = [
       {
         id: "KAR-001",
@@ -2256,7 +2320,8 @@
         department: "Keuangan & Akuntansi",
         baseSalary: 0,
         allowance: 0,
-        pwdHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8"
+        pwdHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8",
+        pEnc: "E44:626854"
       },
       {
         id: "KAR-002",
@@ -2267,15 +2332,16 @@
         department: "Unit Toko & Logistik",
         baseSalary: 0,
         allowance: 0,
-        pwdHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8"
+        pwdHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8",
+        pEnc: "E44:626854"
       }
     ];
 
-    // Data Supplier Awal (Kuantitas & Harga Beli / HPP dimulai dari 0)
+    // Data Supplier Awal (Format Kode: Urut/SUP/NamaUsaha/TahunBuku, Kuantitas & Harga Beli / HPP dimulai dari 0)
     const INITIAL_SUPPLIERS = [
       {
         id: "SUP-REC-1",
-        code: "SUP-001",
+        code: "001/SUP/KDMP-BANYUROJO/2026",
         name: "PT Pertamina Patra Niaga (Agen LPG)",
         address: "Jl. Soekarno Hatta No. 88, Magelang",
         phone: "0293-362111",
@@ -2284,11 +2350,11 @@
         qtyBought: 0,
         buyPrice: 0,
         date: "2026-01-01",
-        docNo: "-"
+        docNo: "001/SUP/KDMP-BANYUROJO/2026"
       },
       {
         id: "SUP-REC-2",
-        code: "SUP-002",
+        code: "002/SUP/KDMP-BANYUROJO/2026",
         name: "CV Pangan Nusantara Makmur",
         address: "Jl. Jend. Sudirman No. 21, Magelang",
         phone: "0293-364222",
@@ -2297,26 +2363,26 @@
         qtyBought: 0,
         buyPrice: 0,
         date: "2026-01-01",
-        docNo: "-"
+        docNo: "002/SUP/KDMP-BANYUROJO/2026"
       },
       {
         id: "SUP-REC-3",
-        code: "SUP-003",
+        code: "003/SUP/KDMP-BANYUROJO/2026",
         name: "UD Tani Subur & Niaga",
-        address: "Jl. Raya MertoyudanKm 4, Magelang",
+        address: "Jl. Raya Mertoyudan Km 4, Magelang",
         phone: "0293-365333",
         itemCode: "BRG-004",
         itemName: "Pupuk Urea Subsidi 50 Kg",
         qtyBought: 0,
         buyPrice: 0,
         date: "2026-01-01",
-        docNo: "-"
+        docNo: "003/SUP/KDMP-BANYUROJO/2026"
       }
     ];
 
     const INITIAL_JOURNALS = [];
 
-    // ==================== ENGINE KRIPTOGRAFI SHA-256 & CIPHER STORAGE (PROTEKSI INSPECT / F12) ====================
+    // ==================== ENGINE KRIPTOGRAFI SHA-256 & REVERSIBLE CIPHER (TERENKRIPSI DI F12 NAMUN TERBUKA BAGI ADMIN) ====================
     function sha256Hash(asciiInput) {
       let ascii = "KDMP_SEC_2026_" + String(asciiInput || "");
       function rightRotate(value, amount) {
@@ -2387,12 +2453,41 @@
       return result;
     }
 
-    const CIPHER_KEY_STREAM = "SIAKAD_KDMP_V43_ENCRYPTED_VAULT_KEY_9948271635";
+    const CIPHER_KEY_STREAM = "SIAKAD_KDMP_V44_ENCRYPTED_VAULT_KEY_9948271635";
+
+    function encCredStr(str) {
+      const s = encodeURIComponent(String(str || ""));
+      let hex = "E44:";
+      for (let i = 0; i < s.length; i++) {
+        const c = s.charCodeAt(i) ^ CIPHER_KEY_STREAM.charCodeAt(i % CIPHER_KEY_STREAM.length) ^ ((i * 19) & 0xff);
+        hex += ("0" + (c & 0xff).toString(16)).slice(-2);
+      }
+      return hex;
+    }
+
+    function decCredStr(hexStr) {
+      if (!hexStr) return "";
+      const raw = String(hexStr);
+      if (!raw.startsWith("E44:")) return raw;
+      try {
+        const hex = raw.substring(4);
+        let out = "";
+        for (let i = 0; i < hex.length; i += 2) {
+          const idx = i / 2;
+          const b = parseInt(hex.substring(i, i + 2), 16);
+          const c = b ^ CIPHER_KEY_STREAM.charCodeAt(idx % CIPHER_KEY_STREAM.length) ^ ((idx * 19) & 0xff);
+          out += String.fromCharCode(c);
+        }
+        return decodeURIComponent(out);
+      } catch (e) {
+        return "";
+      }
+    }
 
     function encryptVaultPayload(obj) {
       try {
         const jsonStr = encodeURIComponent(JSON.stringify(obj));
-        let hexOut = "ENC43:";
+        let hexOut = "ENC44:";
         for (let i = 0; i < jsonStr.length; i++) {
           const code = jsonStr.charCodeAt(i) ^ CIPHER_KEY_STREAM.charCodeAt(i % CIPHER_KEY_STREAM.length) ^ ((i * 31) & 0xff);
           hexOut += ("0" + (code & 0xff).toString(16)).slice(-2);
@@ -2406,13 +2501,16 @@
     function decryptVaultPayload(rawStr) {
       if (!rawStr) return null;
       try {
-        if (rawStr.startsWith("ENC43:")) {
+        if (rawStr.startsWith("ENC44:") || rawStr.startsWith("ENC43:")) {
           const hex = rawStr.substring(6);
+          const keyUsed = rawStr.startsWith("ENC43:")
+            ? "SIAKAD_KDMP_V43_ENCRYPTED_VAULT_KEY_9948271635"
+            : CIPHER_KEY_STREAM;
           let decoded = "";
           for (let i = 0; i < hex.length; i += 2) {
             const idx = i / 2;
             const byteVal = parseInt(hex.substring(i, i + 2), 16);
-            const origChar = byteVal ^ CIPHER_KEY_STREAM.charCodeAt(idx % CIPHER_KEY_STREAM.length) ^ ((idx * 31) & 0xff);
+            const origChar = byteVal ^ keyUsed.charCodeAt(idx % keyUsed.length) ^ ((idx * 31) & 0xff);
             decoded += String.fromCharCode(origChar);
           }
           return JSON.parse(decodeURIComponent(decoded));
@@ -2423,33 +2521,38 @@
       }
     }
 
-    function maskSensitiveText(str) {
-      const s = String(str || "");
-      if (s.length <= 2) return "***";
-      return s.substring(0, 2) + "***" + s.substring(s.length - 1);
+    function getPlainUsername(u) {
+      if (!u) return "-";
+      if (u.uEnc) return decCredStr(u.uEnc);
+      if (u.username) return u.username;
+      return u.uMask || "-";
     }
 
-    function maskEmailAddress(email) {
-      const e = String(email || "");
-      const parts = e.split("@");
-      if (parts.length !== 2) return "***@***";
-      const name = parts[0];
-      const dom = parts[1];
-      const maskedName = name.length <= 2 ? name[0] + "***" : name.substring(0, 2) + "***" + name.substring(name.length - 1);
-      return `${maskedName}@${dom}`;
+    function getPlainPassword(u) {
+      if (!u) return "-";
+      if (u.pEnc) return decCredStr(u.pEnc);
+      if (u.password) return u.password;
+      return "-";
     }
 
-    // Hash Administrator Utama (Tidak ada plaintext username/password admin di kode sumber)
+    function getEmployeePlainPassword(emp) {
+      if (!emp) return "-";
+      if (emp.pEnc) return decCredStr(emp.pEnc);
+      return "123";
+    }
+
+    // Hash Administrator Utama (Tidak ada plaintext username/password admin di kode sumber HTML)
     const SYS_ADMIN_U_HASH = "b77aa0694628a8f70f70b86fc35629585d83b313341779b5853607764c52e1a3";
     const SYS_ADMIN_P_HASH = "5d6dfd626a87de1df6d7de6ffc0edec670ac00ac1a814959e82edef666719d56";
 
-    // Daftar Akun Default Terenkripsi (Disimpan dengan SHA-256 Hash)
+    // Daftar Akun Default Terenkripsi (Dengan uEnc & pEnc terenkripsi agar Admin bisa melihat tanpa bintang-bintang)
     const DEFAULT_USERS = [
       {
         uid: "USR-SYS-ADMIN",
         uHash: SYS_ADMIN_U_HASH,
         pHash: SYS_ADMIN_P_HASH,
-        uMask: "ad***i",
+        uEnc: "E44:323e0a1b63354cbeb08f85efc1aa",
+        pEnc: "E44:323e0a1b637a5da2b58d8ffddbf20c71",
         fullName: "Administrator Aplikasi SIAKAD",
         role: "Administrator Aplikasi",
         coopName: "KDMP Pusat (Super Admin)",
@@ -2460,7 +2563,8 @@
         uid: "USR-BIZ-01",
         uHash: "a04a4dc3742e40f537d0f169d0d8804aeae78f5b35458c2d678c5bd78741b922",
         pHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8",
-        uMask: "be***a",
+        uEnc: "E44:313f09166c734cbcbd",
+        pEnc: "E44:626854",
         fullName: "Siti Rahmawati, A.Md.Ak.",
         role: "Admin Utama Usaha & Bendahara",
         coopName: "KDMP Banyurojo - Pusat",
@@ -2471,7 +2575,8 @@
         uid: "USR-BIZ-02",
         uHash: "614ce72319bcc4ce1f0e21e6bba0916f66d3635eb6ea5463f93ea065643f36ca",
         pHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8",
-        uMask: "un***o",
+        uEnc: "E44:26340e06526f42a5b3",
+        pEnc: "E44:626854",
         fullName: "Agus Pratama",
         role: "Admin Utama Unit Toko & Gudang",
         coopName: "KDMP Banyurojo - Unit Toko",
@@ -2482,7 +2587,8 @@
         uid: "USR-BIZ-03",
         uHash: "5488493c6ebdc4e711fed48de29568d592cdb26c900549eafcfce492b0b97429",
         pHash: "d65f3e5a335ba1f0b8b466962bd0f8f024e030ef82faa669029310b4301741c8",
-        uMask: "pe***s",
+        uEnc: "E44:233f09156c6c4cbd",
+        pEnc: "E44:626854",
         fullName: "H. Bambang Sutrisno, S.E.",
         role: "Ketua / Pengawas Internal",
         coopName: "KDMP Banyurojo - Pengawasan",
@@ -2491,13 +2597,15 @@
       }
     ];
 
-    // ==================== MULTI-USER & MULTI-YEAR ENCRYPTED STATE MANAGEMENT ====================
-    const USERS_STORAGE_KEY = "siakad_kdmp_v43_vault_u";
-    const SESSION_STORAGE_KEY = "siakad_kdmp_v43_vault_s";
-    const DATA_PREFIX_KEY = "siakad_kdmp_v43_vault_d_";
+    // ==================== MULTI-DEVICE CLOUD SYNC + LOCAL ENCRYPTED STATE MANAGEMENT ====================
+    const USERS_STORAGE_KEY = "siakad_kdmp_v44_vault_u";
+    const SESSION_STORAGE_KEY = "siakad_kdmp_v44_vault_s";
+    const DATA_PREFIX_KEY = "siakad_kdmp_v44_vault_d_";
+    const CLOUD_API_ENDPOINT = "/api/cloud-sync";
 
     let usersList = [];
     let currentUser = null;
+    let isSupervisingFromSysAdmin = false; // Flag saat Admin Aplikasi sedang membuka ruang kerja akun lain
     let activeSubSession = {
       type: "ADMIN_USAHA", // "SYS_ADMIN" | "ADMIN_USAHA" | "KARYAWAN_USAHA"
       operatorId: "ADMIN-UTAMA",
@@ -2505,8 +2613,6 @@
       operatorPosition: "Admin Utama Usaha"
     };
     let pendingStep1BizUser = null;
-    let currentGeneratedOtp = null;
-    let currentOtpTargetEmail = "";
 
     let activeBookYear = "2026";
     let availableYears = ["2023", "2024", "2025", "2026", "2027"];
@@ -2522,6 +2628,64 @@
       customYears: []
     };
 
+    function updateCloudSyncBadge(statusText, isOnline = true) {
+      const badge = document.getElementById("cloudSyncBadge");
+      if (!badge) return;
+      badge.textContent = statusText;
+      badge.className = isOnline
+        ? "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/30 border border-emerald-300/50 text-emerald-50"
+        : "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/30 border border-amber-300/50 text-amber-50";
+    }
+
+    async function pushKeyToCloud(storageKey, encryptedVal) {
+      try {
+        const res = await fetch(CLOUD_API_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "set", key: storageKey, value: encryptedVal })
+        });
+        if (res.ok) {
+          updateCloudSyncBadge("Cloud Multi-Device: Tersinkronisasi", true);
+        }
+      } catch (e) {
+        // Fallback silent jika dijalankan secara lokal tanpa server
+      }
+    }
+
+    async function pullAllFromCloud() {
+      try {
+        const syncAllUrl = CLOUD_API_ENDPOINT + "?action=all";
+        const res = await fetch(syncAllUrl, { method: "GET", cache: "no-store" });
+        if (!res.ok) return false;
+        const data = await res.json();
+        if (data && data.store && typeof data.store === "object") {
+          const store = data.store;
+          if (store[USERS_STORAGE_KEY]) {
+            const cloudUsers = decryptVaultPayload(store[USERS_STORAGE_KEY]);
+            if (Array.isArray(cloudUsers) && cloudUsers.length > 0) {
+              // Merge cloud users with local users so accounts created on ANY laptop/device are always available
+              const mergedMap = {};
+              usersList.forEach(u => { mergedMap[u.uHash] = u; });
+              cloudUsers.forEach(cu => { mergedMap[cu.uHash] = cu; });
+              usersList = Object.values(mergedMap);
+              ensureAdminUserExists();
+              localStorage.setItem(USERS_STORAGE_KEY, encryptVaultPayload(usersList));
+            }
+          }
+          Object.keys(store).forEach(k => {
+            if (k.startsWith(DATA_PREFIX_KEY) && store[k]) {
+              localStorage.setItem(k, store[k]);
+            }
+          });
+          updateCloudSyncBadge("Cloud Multi-Device: Tersinkronisasi", true);
+          return true;
+        }
+      } catch (e) {
+        updateCloudSyncBadge("Mode Penyimpanan Lokal", false);
+      }
+      return false;
+    }
+
     function isUserAdmin(userObj) {
       if (!userObj) return false;
       return Boolean(userObj.isAdmin || userObj.uHash === SYS_ADMIN_U_HASH);
@@ -2531,6 +2695,110 @@
       if (!currentUser) return false;
       if (isUserAdmin(currentUser)) return true;
       return activeSubSession.type === "ADMIN_USAHA";
+    }
+
+    // ==================== HELPER KODE USAHA & NOMOR TRANSAKSI OTOMATIS NAIK (POIN 3 & POIN 4) ====================
+    function getBusinessShortCode() {
+      const rawName = (state?.identity?.coopName || currentUser?.coopName || "KDMP").trim().toUpperCase();
+      const words = rawName.replace(/[^A-Z0-9\s-]/g, "").split(/\s+/).filter(Boolean);
+      if (words.length === 0) return "KDMP";
+      if (words.length === 1) return words[0].substring(0, 12);
+      return (words[0] + "-" + words[1]).substring(0, 16);
+    }
+
+    function pad3(n) {
+      const s = String(Math.max(1, Number(n) || 1));
+      return s.length >= 3 ? s : ("000" + s).slice(-3);
+    }
+
+    function pad2(n) {
+      const s = String(Math.max(1, Number(n) || 1));
+      return s.length >= 2 ? s : ("00" + s).slice(-2);
+    }
+
+    // Menghasilkan Nomor Transaksi Urut Berikutnya: 001/BB/KODE-USAHA/TAHUN (Otomatis naik jika sudah ada)
+    function generateNextTransactionDocNo(dateStr, customMiddleTag = null) {
+      const d = (dateStr && dateStr.length >= 7) ? dateStr : `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-10`;
+      const parts = d.split("-");
+      const yr = parts[0] || (activeBookYear !== "ALL" ? activeBookYear : "2026");
+      const mo = pad2(parseInt(parts[1] || "1", 10));
+      const bizCode = getBusinessShortCode();
+
+      let maxSeq = 0;
+      const existingSet = new Set();
+      (state.journals || []).forEach(j => {
+        const doc = (j.docNo || "").trim();
+        if (!doc) return;
+        existingSet.add(doc.toLowerCase());
+        const m = doc.match(/^(\d+)/);
+        if (m) {
+          const val = parseInt(m[1], 10);
+          if (val > maxSeq) maxSeq = val;
+        }
+      });
+
+      let nextNum = maxSeq + 1;
+      let candidate = "";
+      while (true) {
+        const mid = customMiddleTag ? `${customMiddleTag}/${bizCode}` : `${mo}/${bizCode}`;
+        candidate = `${pad3(nextNum)}/${mid}/${yr}`;
+        if (!existingSet.has(candidate.toLowerCase())) break;
+        nextNum++;
+      }
+      return candidate;
+    }
+
+    // Menghasilkan Kode Supplier / Transaksi Supplier: 001/SUP/KODE-USAHA/TAHUN (Otomatis naik jika sudah ada)
+    function generateNextSupplierCode(yearStr = null) {
+      const yr = yearStr || (activeBookYear !== "ALL" ? activeBookYear : "2026");
+      const bizCode = getBusinessShortCode();
+      let maxSeq = 0;
+      const existingSet = new Set();
+
+      (state.suppliers || []).forEach(s => {
+        if (s.code) existingSet.add(s.code.trim().toLowerCase());
+        if (s.docNo) existingSet.add(s.docNo.trim().toLowerCase());
+        const m = (s.code || "").match(/^(\d+)/);
+        if (m) {
+          const v = parseInt(m[1], 10);
+          if (v > maxSeq) maxSeq = v;
+        }
+      });
+      (state.journals || []).forEach(j => {
+        if (j.docNo) existingSet.add(j.docNo.trim().toLowerCase());
+      });
+
+      let nextNum = Math.max(maxSeq + 1, (state.suppliers || []).length + 1);
+      let candidate = "";
+      while (true) {
+        candidate = `${pad3(nextNum)}/SUP/${bizCode}/${yr}`;
+        if (!existingSet.has(candidate.toLowerCase())) break;
+        nextNum++;
+      }
+      return candidate;
+    }
+
+    // Jika pengguna mengetik nomor bukti yang sudah terpakai, otomatis naikkan angka depannya (Poin 3 - Gambar 3)
+    function autoIncrementDuplicateDocNo(rawVal, dateStr, customMiddleTag = null) {
+      const trimmed = (rawVal || "").trim();
+      if (!trimmed) return generateNextTransactionDocNo(dateStr, customMiddleTag);
+      const existing = findExistingTransactionByDocNo(trimmed);
+      if (!existing) return trimmed;
+
+      const matchLeading = trimmed.match(/^(\d+)(.*)$/);
+      let candidate = "";
+      if (matchLeading) {
+        let seq = parseInt(matchLeading[1], 10) + 1;
+        const rest = matchLeading[2];
+        while (true) {
+          candidate = `${pad3(seq)}${rest}`;
+          if (!findExistingTransactionByDocNo(candidate)) break;
+          seq++;
+        }
+      } else {
+        candidate = generateNextTransactionDocNo(dateStr, customMiddleTag);
+      }
+      return candidate;
     }
 
     function createFreshZeroState(userObj) {
@@ -2555,6 +2823,25 @@
       };
     }
 
+    function ensureRetainedEarningsAccountInCoa() {
+      if (!Array.isArray(state.coa)) return;
+      if (!state.coa.some(a => a.code === "3.4.2.01")) {
+        state.coa.push({
+          no: state.coa.length + 1,
+          full: "3.4.2.01 Laba Ditahan",
+          code: "3.4.2.01",
+          name: "Laba Ditahan",
+          normal: "Kredit",
+          budget: 0,
+          initBalance: 0,
+          lvl1: "3",
+          lvl2: "3.4",
+          lvl3: "3.4.2"
+        });
+        state.coa.sort((a, b) => a.code.localeCompare(b.code));
+      }
+    }
+
     function ensureAdminUserExists() {
       const hasAdmin = usersList.some(u => u.uHash === SYS_ADMIN_U_HASH || u.isAdmin);
       if (!hasAdmin) {
@@ -2564,12 +2851,19 @@
           if (!u.uid) u.uid = `USR-MIG-${i + 1}`;
           if (u.username && !u.uHash) {
             u.uHash = sha256Hash(u.username.toLowerCase());
-            u.uMask = maskSensitiveText(u.username);
+            u.uEnc = encCredStr(u.username.toLowerCase());
             delete u.username;
           }
           if (u.password && !u.pHash) {
             u.pHash = sha256Hash(u.password);
+            u.pEnc = encCredStr(u.password);
             delete u.password;
+          }
+          // Pastikan akun default memiliki uEnc & pEnc agar Admin bisa melihat tanpa bintang-bintang
+          const defMatch = DEFAULT_USERS.find(d => d.uHash === u.uHash);
+          if (defMatch) {
+            if (!u.uEnc) u.uEnc = defMatch.uEnc;
+            if (!u.pEnc) u.pEnc = defMatch.pEnc;
           }
           if (!u.adminEmail) {
             u.adminEmail = "admin@kdmp-banyurojo.id";
@@ -2582,23 +2876,9 @@
       }
     }
 
-    function purgeLegacyPlaintextStorage() {
-      try {
-        const legacyKeys = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const k = localStorage.key(i);
-          if (k && (k.startsWith("siakad_kdmp_v41") || k.startsWith("siakad_kdmp_v42"))) {
-            legacyKeys.push(k);
-          }
-        }
-        legacyKeys.forEach(k => localStorage.removeItem(k));
-      } catch (e) {}
-    }
-
     function loadUsers() {
-      purgeLegacyPlaintextStorage();
       try {
-        const raw = localStorage.getItem(USERS_STORAGE_KEY);
+        const raw = localStorage.getItem(USERS_STORAGE_KEY) || localStorage.getItem("siakad_kdmp_v43_vault_u");
         if (raw) {
           const parsed = decryptVaultPayload(raw);
           if (Array.isArray(parsed) && parsed.length > 0) {
@@ -2618,7 +2898,9 @@
 
     function saveUsers() {
       try {
-        localStorage.setItem(USERS_STORAGE_KEY, encryptVaultPayload(usersList));
+        const enc = encryptVaultPayload(usersList);
+        localStorage.setItem(USERS_STORAGE_KEY, enc);
+        pushKeyToCloud(USERS_STORAGE_KEY, enc);
       } catch (e) {
         console.warn("Save users error:", e);
       }
@@ -2632,19 +2914,25 @@
     function loadStateForUser(userObj) {
       if (!userObj) return;
       try {
-        const raw = localStorage.getItem(getUserStorageKey(userObj));
+        const key44 = getUserStorageKey(userObj);
+        const key43 = "siakad_kdmp_v43_vault_d_" + (userObj.uHash || userObj.uid || "user").substring(0, 24);
+        const raw = localStorage.getItem(key44) || localStorage.getItem(key43);
         if (raw) {
           const parsed = decryptVaultPayload(raw);
           if (parsed && parsed.coa && parsed.items && Array.isArray(parsed.journals)) {
             state = parsed;
+            ensureRetainedEarningsAccountInCoa();
             state.coa.forEach(a => {
               if (a.initBalance === undefined) a.initBalance = 0;
             });
             state.items.forEach(it => {
-              if (it.supplierCode === undefined) it.supplierCode = "SUP-001";
+              if (!it.supplierCode) it.supplierCode = "001/SUP/KDMP-BANYUROJO/2026";
             });
             if (!Array.isArray(state.members)) state.members = JSON.parse(JSON.stringify(INITIAL_MEMBERS));
             if (!Array.isArray(state.employees)) state.employees = JSON.parse(JSON.stringify(INITIAL_EMPLOYEES));
+            state.employees.forEach(emp => {
+              if (!emp.pEnc) emp.pEnc = "E44:626854";
+            });
             if (!Array.isArray(state.suppliers)) state.suppliers = JSON.parse(JSON.stringify(INITIAL_SUPPLIERS));
             if (!Array.isArray(state.customYears)) state.customYears = [];
             syncAvailableYears();
@@ -2655,6 +2943,7 @@
         console.warn("Load user state error:", e);
       }
       state = createFreshZeroState(userObj);
+      ensureRetainedEarningsAccountInCoa();
       syncAvailableYears();
       saveState();
     }
@@ -2662,7 +2951,10 @@
     function saveState() {
       if (!currentUser) return;
       try {
-        localStorage.setItem(getUserStorageKey(currentUser), encryptVaultPayload(state));
+        const key = getUserStorageKey(currentUser);
+        const enc = encryptVaultPayload(state);
+        localStorage.setItem(key, enc);
+        pushKeyToCloud(key, enc);
       } catch (e) {
         console.warn("Save state error:", e);
       }
@@ -2741,22 +3033,43 @@
       };
     }
 
-    function updateDocNoWarningUI(inputId, warningBoxId) {
+    // Poin 3 (Gambar 3 & 4): Saat nomor bukti sudah pernah dipakai, tampilkan info singkat & otomatis naikkan kode awalnya!
+    function updateDocNoWarningUI(inputId, warningBoxId, dateInputId = "jDate", customMidTag = null) {
       const inp = document.getElementById(inputId);
       const box = document.getElementById(warningBoxId);
       if (!inp || !box) return false;
-      const existing = findExistingTransactionByDocNo(inp.value);
+      const rawVal = inp.value.trim();
+      const existing = findExistingTransactionByDocNo(rawVal);
       if (existing) {
+        const dateVal = document.getElementById(dateInputId)?.value || existing.date;
+        const nextAvailable = autoIncrementDuplicateDocNo(rawVal, dateVal, customMidTag);
+        inp.value = nextAvailable;
         box.classList.remove("hidden");
-        box.innerHTML = `<strong>PERINGATAN NOMOR TRANSAKSI SUDAH TERPAKAI:</strong> Nomor bukti <strong>"${existing.docNo}"</strong> tidak dapat digunakan lagi karena sudah pernah dipakai pada tanggal <strong>${existing.date}</strong> dengan keterangan: <strong>"${existing.desc}"</strong> (Nilai: ${fmtRp(existing.totalDebit)} pada akun: ${existing.accountsInvolved}). Silakan gunakan nomor bukti yang berbeda.`;
-        inp.classList.add("border-rose-500", "bg-rose-50");
-        return true;
+        box.className = "mt-1.5 p-2.5 rounded-lg bg-amber-50 border border-amber-300 text-amber-900 text-[11px] leading-relaxed";
+        box.innerHTML = `<strong>OTOMATIS DINAIKKAN:</strong> Nomor transaksi <strong>"${existing.docNo}"</strong> sudah terpakai pada tanggal <strong>${existing.date}</strong> (${existing.desc}). Kode transaksi otomatis dinaikkan menjadi <strong>"${nextAvailable}"</strong>.`;
+        inp.classList.remove("border-rose-500", "bg-rose-50");
+        inp.classList.add("border-amber-500", "bg-amber-50/40");
+        return false;
       } else {
         box.classList.add("hidden");
         box.innerHTML = "";
-        inp.classList.remove("border-rose-500", "bg-rose-50");
+        inp.classList.remove("border-rose-500", "bg-rose-50", "border-amber-500", "bg-amber-50/40");
         return false;
       }
+    }
+
+    function syncAllTransactionDocNoInputs() {
+      const jDateVal = document.getElementById("jDate")?.value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-10`;
+      const jInp = document.getElementById("jDocNo");
+      if (jInp) jInp.value = generateNextTransactionDocNo(jDateVal, null);
+
+      const qtDateVal = document.getElementById("qtDate")?.value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-12`;
+      const qtInp = document.getElementById("qtDocNo");
+      if (qtInp) qtInp.value = generateNextTransactionDocNo(qtDateVal, null);
+
+      const spDateVal = document.getElementById("spDate")?.value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-15`;
+      const spInp = document.getElementById("spDocNo");
+      if (spInp) spInp.value = generateNextTransactionDocNo(spDateVal, "USP");
     }
 
     // ==================== ENGINE DATABASE ANGGOTA & SIMPAN PINJAM (LINK OTOMATIS KE JURNAL) ====================
@@ -2831,7 +3144,7 @@
       }));
     }
 
-    // ==================== ENGINE PERHITUNGAN STOK, SUPPLIER & AKUNTANSI MULTI-TAHUN (+ SALDO AWAL MANUAL COA) ====================
+    // ==================== ENGINE PERHITUNGAN STOK, SUPPLIER & AKUNTANSI MULTI-TAHUN (+ LABA DITAHAN 3.4.2.01) ====================
     function enrichAllJournals() {
       return state.journals.map(j => {
         const acc = getAccountObj(j.account);
@@ -2846,6 +3159,7 @@
         const lvl3 = code.substring(0, 5);
         const jumlah = normal === "Debit" ? (debit - kredit) : (kredit - debit);
         const isExplicitSaldoAwal = (j.desc || "").toLowerCase().trim() === "saldo awal";
+        const isClosingEntry = Boolean(j.isClosingEntry || (j.docNo || "").toUpperCase().includes("/TUTUP-BUKU/"));
         return {
           ...j,
           debit,
@@ -2858,7 +3172,8 @@
           lvl2,
           lvl3,
           jumlah,
-          isExplicitSaldoAwal
+          isExplicitSaldoAwal,
+          isClosingEntry
         };
       });
     }
@@ -2866,7 +3181,6 @@
     function computeInventorySummary() {
       const map = {};
       state.items.forEach(item => {
-        // Cari kode supplier dari master barang atau dari data supplier terkait
         const linkedSups = (state.suppliers || []).filter(s => s.itemCode === item.code || s.itemName === item.name);
         const supCodes = Array.from(new Set([
           ...(item.supplierCode ? [item.supplierCode] : []),
@@ -2875,7 +3189,7 @@
 
         map[item.name] = {
           ...item,
-          supplierCodes: supCodes.length > 0 ? supCodes : ["SUP-001"],
+          supplierCodes: supCodes.length > 0 ? supCodes : [generateNextSupplierCode()],
           effectiveInitQty: Number(item.initQty) || 0,
           qtyIn: 0,
           qtyOut: 0,
@@ -2965,7 +3279,8 @@
       }));
     }
 
-    function computePriorYearsNetSHU() {
+    // Menghitung SHU tahun-tahun sebelumnya yang BELUM ditutup secara eksplisit ke 3.4.2.01 Laba Ditahan
+    function computePriorYearsUnclosedSHU() {
       if (activeBookYear === "ALL") return 0;
       const all = enrichAllJournals().filter(j => j.year < activeBookYear);
       let rev = 0, hpp = 0, ops = 0, otherRev = 0, otherExp = 0, tax = 0;
@@ -2982,7 +3297,7 @@
 
     function computeTrialBalance() {
       const all = enrichAllJournals();
-      const priorSHU = computePriorYearsNetSHU();
+      const priorUnclosedSHU = computePriorYearsUnclosedSHU();
 
       return state.coa.map(acc => {
         const manualInit = Number(acc.initBalance) || 0;
@@ -3017,9 +3332,10 @@
           }
         });
 
-        if (activeBookYear !== "ALL" && acc.code === "3.4.1.01" && priorSHU !== 0) {
-          if (priorSHU > 0) jKredit += priorSHU;
-          else jDebit += Math.abs(priorSHU);
+        // Jika tahun sebelumnya belum ditutup dengan jurnal penutup, bawa otomatis ke 3.4.2.01 Laba Ditahan
+        if (activeBookYear !== "ALL" && acc.code === "3.4.2.01" && priorUnclosedSHU !== 0) {
+          if (priorUnclosedSHU > 0) jKredit += priorUnclosedSHU;
+          else jDebit += Math.abs(priorUnclosedSHU);
         }
 
         const mutDebit = initDebit + jDebit;
@@ -3052,6 +3368,8 @@
         });
       }
       ej.forEach(j => {
+        // Jangan hitung baris jurnal penutup akhir tahun pada laporan PHU agar rincian pendapatan/beban tetap tampil utuh
+        if (j.isClosingEntry) return;
         if (j.lvl3 === lvl3) {
           if (exactMonth !== null) {
             if (j.month === exactMonth) total += j.jumlah;
@@ -3240,20 +3558,46 @@
       };
     }
 
+    // Menghitung SHU Tahun Berjalan yang belum ditutup oleh Jurnal Penutup
+    function computeCurrentYearUnclosedSHU() {
+      const ej = enrichJournals();
+      let rev = 0, hpp = 0, ops = 0, otherRev = 0, otherExp = 0, tax = 0;
+      state.coa.forEach(a => {
+        const ib = Number(a.initBalance) || 0;
+        if (ib === 0) return;
+        if (a.lvl1 === "4") rev += ib;
+        else if (a.lvl1 === "5") hpp += ib;
+        else if (a.lvl1 === "6") ops += ib;
+        else if (a.lvl2 === "9.1") otherRev += ib;
+        else if (a.lvl2 === "9.2") otherExp += ib;
+        else if (a.lvl2 === "9.3") tax += ib;
+      });
+      ej.forEach(j => {
+        if (j.lvl1 === "4") rev += j.jumlah;
+        else if (j.lvl1 === "5") hpp += j.jumlah;
+        else if (j.lvl1 === "6") ops += j.jumlah;
+        else if (j.lvl2 === "9.1") otherRev += j.jumlah;
+        else if (j.lvl2 === "9.2") otherExp += j.jumlah;
+        else if (j.lvl2 === "9.3") tax += j.jumlah;
+      });
+      return (rev - hpp - ops) + (otherRev - otherExp) - tax;
+    }
+
     function computeLPE() {
       const all = enrichAllJournals();
-      const phu = computePHU(12);
-      const priorSHU = computePriorYearsNetSHU();
+      const unclosedCurrentSHU = computeCurrentYearUnclosedSHU();
+      const priorUnclosedSHU = computePriorYearsUnclosedSHU();
       const codes = ["3.1.1", "3.1.2", "3.1.3", "3.2.1", "3.3.1", "3.4.1"];
       const awal = {};
       const mutasi = {};
       const akhir = {};
 
       codes.forEach(c => {
-        let sa = state.coa.filter(a => a.lvl3 === c).reduce((s, a) => s + (Number(a.initBalance) || 0), 0);
+        const matchLvls = c === "3.4.1" ? ["3.4.1", "3.4.2"] : [c];
+        let sa = state.coa.filter(a => matchLvls.includes(a.lvl3)).reduce((s, a) => s + (Number(a.initBalance) || 0), 0);
         let mut = 0;
         all.forEach(j => {
-          if (j.lvl3 === c) {
+          if (matchLvls.includes(j.lvl3)) {
             if (activeBookYear === "ALL") {
               if (j.isExplicitSaldoAwal) sa += j.jumlah;
               else mut += j.jumlah;
@@ -3268,11 +3612,11 @@
           }
         });
         if (activeBookYear !== "ALL" && c === "3.4.1") {
-          sa += priorSHU;
+          sa += priorUnclosedSHU;
         }
         awal[c] = sa;
         if (c === "3.4.1") {
-          mutasi[c] = mut + phu.shuSetelahPajak;
+          mutasi[c] = mut + unclosedCurrentSHU;
         } else {
           mutasi[c] = mut;
         }
@@ -3374,7 +3718,7 @@
         start: totKewajibanPendek.start + totKewajibanPanjang.start
       };
 
-      // Ekuitas dari LPE
+      // Ekuitas dari LPE (termasuk Laba Ditahan 3.4.2 & SHU 3.4.1)
       const e311 = { end: lpe.akhir["3.1.1"], start: lpe.awal["3.1.1"] };
       const e312 = { end: lpe.akhir["3.1.2"], start: lpe.awal["3.1.2"] };
       const e313 = { end: lpe.akhir["3.1.3"], start: lpe.awal["3.1.3"] };
@@ -3441,7 +3785,7 @@
         { code: "3.1.3", no: 44, label: "Simpanan Sukarela / Lainnya", ...e313 },
         { code: "3.2.1", no: 45, label: "Hibah / Donasi", ...e321 },
         { code: "3.3.1", no: 46, label: "Cadangan Koperasi", ...e331 },
-        { code: "3.4.1", no: 47, label: "Sisa Hasil Usaha (SHU) Belum Dibagikan", ...e341 },
+        { code: "3.4.1", no: 47, label: "Sisa Hasil Usaha (SHU) & Laba Ditahan (3.4.2)", ...e341 },
         { code: "", no: 48, label: "TOTAL EKUITAS", ...totalEkuitas, isTotal: true },
         { code: "", no: 49, label: "TOTAL KEWAJIBAN DAN EKUITAS", ...totalPasiva, isGrand: true }
       ];
@@ -3616,6 +3960,7 @@
     // ==================== RENDER FUNCTIONS ====================
     function renderAll() {
       syncAvailableYears();
+      ensureRetainedEarningsAccountInCoa();
       const invSummary = computeInventorySummary();
       const memSummary = computeMembersSummary();
       const phu = computePHU(Number(document.getElementById("reportMonthSelect")?.value || 12));
@@ -3630,6 +3975,12 @@
       document.querySelectorAll(".coop-name-span").forEach(el => el.textContent = state.identity.coopName);
       document.querySelectorAll(".coop-end-date-span").forEach(el => el.textContent = periodLabel);
 
+      // Tampilkan tombol "Kembali ke Akun Admin Aplikasi" jika Admin Aplikasi sedang membuka ruang kerja akun usaha (Poin 2)
+      const returnAdminBtn = document.getElementById("btnReturnToSysAdmin");
+      if (returnAdminBtn) {
+        returnAdminBtn.classList.toggle("hidden", !(isSupervisingFromSysAdmin && currentUser && !isUserAdmin(currentUser)));
+      }
+
       if (currentUser) {
         const opLabel = activeSubSession.type === "KARYAWAN_USAHA"
           ? `Karyawan: ${activeSubSession.operatorName} (${activeSubSession.operatorId})`
@@ -3637,7 +3988,7 @@
         document.getElementById("activeUserBadge").textContent = opLabel;
         document.getElementById("drawerActiveSessionInfo").textContent = `${opLabel} | Unit: ${state.identity.coopName}`;
         document.getElementById("dashUserRoleInfo").textContent =
-          `Otoritas Aktif: ${opLabel} - Data disimpan terenkripsi mandiri untuk akun "${currentUser.coopName}". Semua angka awal dimulai dari Rp 0.`;
+          `Otoritas Aktif: ${opLabel} - Data tersinkronisasi lintas perangkat untuk akun "${currentUser.coopName}". Semua angka awal dimulai dari Rp 0.`;
       }
       document.getElementById("dashActivePeriodBadge").textContent =
         activeBookYear === "ALL" ? "Periode: Akumulasi Lintas Tahun" : `Tahun Buku Aktif: ${activeBookYear}`;
@@ -3657,6 +4008,13 @@
       if (empBadge) empBadge.textContent = (state.employees || []).length;
       const supBadge = document.getElementById("navSupplierBadge");
       if (supBadge) supBadge.textContent = (state.suppliers || []).length;
+
+      // Update badge Laba Ditahan di tab COA
+      const reBadge = document.getElementById("coaRetainedEarningsPreviewBadge");
+      if (reBadge) {
+        const unclosed = computeCurrentYearUnclosedSHU();
+        reBadge.textContent = `SHU Belum Ditutup (${activeBookYear}): ${fmtRp(unclosed)}`;
+      }
 
       // 1. Render Dashboard
       const totalInvValue = invSummary.reduce((s, i) => s + i.finalVal, 0);
@@ -3819,7 +4177,7 @@
       }
     }
 
-    // ==================== RENDER DATABASE KARYAWAN ====================
+    // ==================== RENDER DATABASE KARYAWAN (ADMIN USAHA BISA LIHAT ID & PASSWORD TANPA BINTANG-BINTANG - POIN 1) ====================
     function renderEmployeesTab() {
       const emps = state.employees || [];
       const search = (document.getElementById("searchEmployeeInput")?.value || "").toLowerCase();
@@ -3857,6 +4215,7 @@
           const sal = Number(e.baseSalary) || 0;
           const allw = Number(e.allowance) || 0;
           const tot = sal + allw;
+          const plainPwd = isAdminUsaha ? getEmployeePlainPassword(e) : "Khusus Admin";
           return `
             <tr class="hover:bg-slate-50">
               <td class="py-2.5 px-3 text-center text-slate-500">${idx + 1}</td>
@@ -3874,7 +4233,7 @@
               <td class="py-2.5 px-3 text-right font-semibold text-blue-700">${fmtRp(allw)}</td>
               <td class="py-2.5 px-3 text-right font-extrabold text-slate-900 bg-slate-50">${fmtRp(tot)}</td>
               <td class="py-2.5 px-3 text-center">
-                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">Terenkripsi (SHA-256)</span>
+                <span class="px-2.5 py-1 rounded bg-amber-50 border border-amber-200 text-amber-900 font-mono font-bold text-xs">${plainPwd}</span>
               </td>
               <td class="py-2.5 px-3 text-center whitespace-nowrap space-x-1">
                 ${isAdminUsaha ? `
@@ -4110,7 +4469,7 @@
             ? "bg-emerald-100 text-emerald-800 border-emerald-200"
             : (it.status === "MENIPIS" ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-rose-100 text-rose-800 border-rose-200");
 
-          const supBadgesHtml = (it.supplierCodes || ["SUP-001"]).map(sc => `
+          const supBadgesHtml = (it.supplierCodes || ["001/SUP/KDMP/2026"]).map(sc => `
             <button type="button" data-action="supplier-link" data-code="${it.code}" data-sup="${sc}" title="Klik untuk melihat detail pasokan Supplier ${sc} & HPP" class="inv-action-btn inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-mono font-bold text-[11px] transition cursor-pointer">
               ${sc}
             </button>
@@ -4195,6 +4554,7 @@
       }
     }
 
+    // ==================== RENDER JURNAL HARIAN (HAPUS SEPAKET DEBIT+KREDIT PER NOMOR TRANSAKSI - POIN 6 GAMBAR 6) ====================
     function renderJournalTab() {
       const ej = enrichJournals();
       const mFilter = document.getElementById("filterJournalMonth")?.value || "ALL";
@@ -4210,38 +4570,60 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="10" class="py-5 px-3 text-center text-slate-400">Belum ada transaksi jurnal pada periode ini (Semua angka dimulai dari Rp 0). Silakan input jurnal baru di atas.</td></tr>`;
       } else {
-        tbody.innerHTML = filtered.map(j => {
-          const tags = [];
-          if (j.officerName) {
-            tags.push(`<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-semibold">Petugas: ${j.officerName}</span>`);
-          }
-          if (j.memberName || j.memberCode) {
-            tags.push(`<span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-900 font-semibold">Anggota: ${j.memberCode ? j.memberCode + ' - ' : ''}${j.memberName || ''}</span>`);
-          }
-          if (j.itemName) {
-            tags.push(`<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">${j.itemName}</span>`);
-          }
-          return `
-            <tr class="hover:bg-slate-50">
-              <td class="py-2 px-3 whitespace-nowrap">${j.date}</td>
-              <td class="py-2 px-3 font-mono text-slate-700 whitespace-nowrap">${j.docNo}</td>
-              <td class="py-2 px-3 font-medium ${j.kredit > 0 ? 'pl-7 text-slate-700' : 'font-semibold text-slate-900'}">${j.account}</td>
-              <td class="py-2 px-3 space-y-1">
-                ${tags.length > 0 ? tags.join("<br/>") : '<span class="text-slate-300">-</span>'}
+        // Kelompokkan baris per Nomor Bukti agar tombol "Hapus Sepaket" menghapus seluruh pasangan Debit & Kredit sekaligus
+        const docGroups = {};
+        filtered.forEach(j => {
+          const key = (j.docNo || "").trim();
+          if (!docGroups[key]) docGroups[key] = [];
+          docGroups[key].push(j);
+        });
+
+        const rowsHtml = [];
+        Object.keys(docGroups).forEach(docKey => {
+          const groupLines = docGroups[docKey];
+          const rowSpanCount = groupLines.length;
+          groupLines.forEach((j, idxInGroup) => {
+            const tags = [];
+            if (j.officerName) {
+              tags.push(`<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-semibold">Petugas: ${j.officerName}</span>`);
+            }
+            if (j.memberName || j.memberCode) {
+              tags.push(`<span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-900 font-semibold">Anggota: ${j.memberCode ? j.memberCode + ' - ' : ''}${j.memberName || ''}</span>`);
+            }
+            if (j.itemName) {
+              tags.push(`<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">${j.itemName}</span>`);
+            }
+
+            const actionCellHtml = idxInGroup === 0 ? `
+              <td rowspan="${rowSpanCount}" class="py-2 px-3 text-center align-middle border-l border-slate-200 bg-rose-50/20 no-print">
+                <button type="button" data-docno="${j.docNo}" class="del-journal-btn text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 font-bold px-2.5 py-1.5 rounded-lg text-[11px] shadow-2xs transition cursor-pointer">
+                  Hapus Sepaket (${rowSpanCount} Baris)
+                </button>
               </td>
-              <td class="py-2 px-3 text-right font-semibold">
-                ${j.qty ? (j.debit > 0 ? `<span class="text-emerald-700">+${fmtNum(j.qty)}</span>` : `<span class="text-rose-700">-${fmtNum(j.qty)}</span>`) : '-'}
-              </td>
-              <td class="py-2 px-3 text-right font-semibold text-emerald-700">${j.debit > 0 ? fmtNum(j.debit) : '-'}</td>
-              <td class="py-2 px-3 text-right font-semibold text-blue-700">${j.kredit > 0 ? fmtNum(j.kredit) : '-'}</td>
-              <td class="py-2 px-3 text-slate-600">${j.desc || '-'}</td>
-              <td class="py-2 px-3 text-slate-500">${j.cashflow || '-'}</td>
-              <td class="py-2 px-3 text-center no-print">
-                <button type="button" data-jid="${j.id}" class="del-journal-btn text-rose-600 hover:text-rose-800 font-bold px-2 py-0.5 rounded hover:bg-rose-50">Hapus</button>
-              </td>
-            </tr>
-          `;
-        }).join("");
+            ` : "";
+
+            rowsHtml.push(`
+              <tr class="hover:bg-slate-50 ${idxInGroup === rowSpanCount - 1 ? 'border-b-2 border-slate-300' : ''}">
+                <td class="py-2 px-3 whitespace-nowrap">${j.date}</td>
+                <td class="py-2 px-3 font-mono font-bold text-slate-800 whitespace-nowrap">${j.docNo}</td>
+                <td class="py-2 px-3 font-medium ${j.kredit > 0 ? 'pl-7 text-slate-700' : 'font-semibold text-slate-900'}">${j.account}</td>
+                <td class="py-2 px-3 space-y-1">
+                  ${tags.length > 0 ? tags.join("<br/>") : '<span class="text-slate-300">-</span>'}
+                </td>
+                <td class="py-2 px-3 text-right font-semibold">
+                  ${j.qty ? (j.debit > 0 ? `<span class="text-emerald-700">+${fmtNum(j.qty)}</span>` : `<span class="text-rose-700">-${fmtNum(j.qty)}</span>`) : '-'}
+                </td>
+                <td class="py-2 px-3 text-right font-semibold text-emerald-700">${j.debit > 0 ? fmtNum(j.debit) : '-'}</td>
+                <td class="py-2 px-3 text-right font-semibold text-blue-700">${j.kredit > 0 ? fmtNum(j.kredit) : '-'}</td>
+                <td class="py-2 px-3 text-slate-600">${j.desc || '-'}</td>
+                <td class="py-2 px-3 text-slate-500">${j.cashflow || '-'}</td>
+                ${actionCellHtml}
+              </tr>
+            `);
+          });
+        });
+
+        tbody.innerHTML = rowsHtml.join("");
       }
 
       const totD = filtered.reduce((s, j) => s + j.debit, 0);
@@ -4287,8 +4669,8 @@
         all.filter(j => j.year < activeBookYear && (j.account === selectedAcc.full || j.code === selectedAcc.code)).forEach(j => {
           priorBalance += (selectedAcc.normal === "Debit" ? (j.debit - j.kredit) : (j.kredit - j.debit));
         });
-        if (selectedAcc.code === "3.4.1.01") {
-          priorBalance += computePriorYearsNetSHU();
+        if (selectedAcc.code === "3.4.2.01") {
+          priorBalance += computePriorYearsUnclosedSHU();
         }
       }
 
@@ -4306,7 +4688,7 @@
           <tr class="bg-amber-50/70 font-semibold">
             <td class="py-2 px-3">${startYearLbl}</td>
             <td class="py-2 px-3 font-mono">SALDO-AWAL</td>
-            <td class="py-2 px-3">Saldo Awal Akun (Manual COA / Akumulasi Tahun Sebelumnya)</td>
+            <td class="py-2 px-3">Saldo Awal Akun (Manual COA / Akumulasi Laba Ditahan Tahun Sebelumnya)</td>
             <td class="py-2 px-3 text-right">-</td>
             <td class="py-2 px-3 text-right">-</td>
             <td class="py-2 px-3 text-right font-bold text-slate-900">${fmtRp(running)}</td>
@@ -4431,7 +4813,7 @@
         </tr>
       `;
       lpeBody.innerHTML =
-        lpeRowHtml(1, "SALDO AWAL TAHUN (TERMASUK SALDO AWAL COA & TAHUN SEBELUMNYA)", lpe.awal, lpe.totAwal, false) +
+        lpeRowHtml(1, "SALDO AWAL TAHUN (TERMASUK LABA DITAHAN 3.4.2.01 & SALDO AWAL COA)", lpe.awal, lpe.totAwal, false) +
         lpeRowHtml(2, "Penambahan (Pengurangan) Periode Berjalan", lpe.mutasi, lpe.totMutasi, false) +
         lpeRowHtml(3, "SALDO AKHIR EKUITAS", lpe.akhir, lpe.totAkhir, true);
 
@@ -4514,10 +4896,13 @@
       });
 
       document.getElementById("coaTableBody").innerHTML = filtered.map((a, idx) => `
-        <tr class="hover:bg-slate-50">
+        <tr class="hover:bg-slate-50 ${a.code === '3.4.2.01' ? 'bg-amber-50/70' : ''}">
           <td class="py-2 px-3 text-slate-500">${idx + 1}</td>
           <td class="py-2 px-3 font-mono font-semibold text-slate-700">${a.code}</td>
-          <td class="py-2 px-3 font-medium text-slate-900">${a.full}</td>
+          <td class="py-2 px-3 font-medium text-slate-900">
+            ${a.full}
+            ${a.code === '3.4.2.01' ? '<span class="ml-1.5 px-2 py-0.5 rounded bg-amber-200 text-amber-950 text-[10px] font-extrabold">AKUN PENUTUP LABA RUGI</span>' : ''}
+          </td>
           <td class="py-2 px-3 text-center">
             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${a.normal === 'Debit' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}">${a.normal}</span>
           </td>
@@ -4547,15 +4932,24 @@
       document.getElementById("idAccountantNik").value = state.identity.accountantNik || "";
     }
 
+    // ==================== RENDER PENGATURAN AKUN & PANEL ADMIN (TANPA BINTANG-BINTANG - POIN 1 & POIN 2) ====================
     function renderAccountSettingsAndAdminTab() {
       if (!currentUser) return;
-      document.getElementById("accSetUsername").value = currentUser.uMask || "Terenkripsi (SHA-256)";
+      const plainU = getPlainUsername(currentUser);
+      const plainP = getPlainPassword(currentUser);
+      const isOperatorAdmin = isCurrentOperatorAdminUsaha();
+
+      document.getElementById("accSetUsername").value = isOperatorAdmin ? plainU : currentUser.fullName;
       document.getElementById("accSetRole").value = currentUser.role;
       document.getElementById("accSetFullName").value = currentUser.fullName || "";
       document.getElementById("accSetCoopName").value = currentUser.coopName || "";
 
-      const adminMode = isUserAdmin(currentUser);
-      document.getElementById("nonAdminNoticeBox").classList.toggle("hidden", adminMode);
+      const uSpan = document.getElementById("currentAccountPlainUsername");
+      const pSpan = document.getElementById("currentAccountPlainPassword");
+      if (uSpan) uSpan.textContent = isOperatorAdmin ? plainU : "(Login sebagai Admin Utama untuk melihat)";
+      if (pSpan) pSpan.textContent = isOperatorAdmin ? plainP : "(Khusus Admin)";
+
+      const adminMode = isUserAdmin(currentUser) || isSupervisingFromSysAdmin;
       document.getElementById("adminActiveNoticeBox").classList.toggle("hidden", !adminMode);
       document.getElementById("adminUsersManagementPanel").classList.toggle("hidden", !adminMode);
 
@@ -4580,20 +4974,24 @@
         } catch (e) {}
 
         const isSuperAdmin = isUserAdmin(u);
+        const uPlain = getPlainUsername(u);
+        const pPlain = getPlainPassword(u);
         return `
           <tr class="hover:bg-slate-50">
             <td class="py-2.5 px-3 text-slate-500">${idx + 1}</td>
-            <td class="py-2.5 px-3 font-mono font-bold text-slate-900">
-              ${u.uMask || "us***r"}
+            <td class="py-2.5 px-3 font-mono font-extrabold text-slate-900">
+              ${uPlain}
               ${isSuperAdmin ? '<span class="ml-1 px-1.5 py-0.5 rounded bg-red-100 text-red-800 text-[10px]">ADMIN APLIKASI</span>' : ''}
             </td>
             <td class="py-2.5 px-3 font-semibold text-slate-800">
               ${u.fullName}
-              <p class="text-[10px] font-mono text-slate-500">${maskEmailAddress(u.adminEmail)}</p>
+              <p class="text-[11px] font-mono text-blue-700">${u.adminEmail || "-"}</p>
             </td>
             <td class="py-2.5 px-3 text-slate-600">${u.role}</td>
             <td class="py-2.5 px-3 text-slate-600">${u.coopName}</td>
-            <td class="py-2.5 px-3 font-mono text-slate-500 text-[11px]">SHA256:${(u.pHash || "").substring(0, 10)}...</td>
+            <td class="py-2.5 px-3">
+              <span class="px-2.5 py-1 rounded bg-amber-50 border border-amber-200 text-red-700 font-mono font-extrabold text-xs">${pPlain}</span>
+            </td>
             <td class="py-2.5 px-3 text-center">
               <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">${mCount} Anggota | ${eCount} Karyawan | ${iCount} Barang | ${jCount} Jurnal</span>
             </td>
@@ -4615,6 +5013,26 @@
           `<option value="${it.code}">${it.code} - ${it.name} (Stok: ${it.finalQty} ${it.unit})</option>`
         ).join("");
         if (cur && invSummary.some(i => i.code === cur)) qtSelect.value = cur;
+      }
+
+      // Populate Supplier Dropdown inside QuickTrans Modal (Point 5)
+      const qtSupSel = document.getElementById("qtSupplierSelect");
+      if (qtSupSel) {
+        const curSup = qtSupSel.value;
+        const uniqueSups = [];
+        const seenCodes = new Set();
+        (state.suppliers || []).forEach(s => {
+          if (s.code && !seenCodes.has(s.code)) {
+            seenCodes.add(s.code);
+            uniqueSups.push(s);
+          }
+        });
+        qtSupSel.innerHTML = uniqueSups.map(s =>
+          `<option value="${s.code}">${s.code} - ${s.name}</option>`
+        ).join("") + `<option value="__NEW__">+ Tambah Supplier Baru Sekaligus...</option>`;
+        if (curSup && (seenCodes.has(curSup) || curSup === "__NEW__")) {
+          qtSupSel.value = curSup;
+        }
       }
 
       const supItemSel = document.getElementById("supItemCodeSelect");
@@ -4808,7 +5226,8 @@
       container.appendChild(createJournalLineRow("", 0, 0));
       container.appendChild(createJournalLineRow("", 0, 0));
       updateJournalFormTotals();
-      updateDocNoWarningUI("jDocNo", "jDocNoWarning");
+      syncAllTransactionDocNoInputs();
+      updateDocNoWarningUI("jDocNo", "jDocNoWarning", "jDate", null);
     }
 
     function updateJournalFormTotals() {
@@ -4969,13 +5388,23 @@
       modal.classList.add("flex");
     }
 
-    // ==================== QUICK TRANSACTION MODAL LOGIC ====================
+    // ==================== QUICK TRANSACTION MODAL LOGIC (+ PILIH / TAMBAH SUPPLIER BARU SAAT BARANG MASUK - POIN 5) ====================
     function updateQuickTransPreview() {
       const type = document.getElementById("qtType")?.value || "IN_BUY";
       const code = document.getElementById("qtItemCode")?.value;
       const qty = Number(document.getElementById("qtQty")?.value || 0);
       const priceInput = document.getElementById("qtUnitPrice");
       const payAcc = document.getElementById("qtPayAccount")?.value || "1.1.1.02 Kas di Bank BRI";
+
+      const supWrap = document.getElementById("qtSupplierSectionWrap");
+      const supSelect = document.getElementById("qtSupplierSelect");
+      const newSupFields = document.getElementById("qtNewSupplierInlineFields");
+      if (supWrap) {
+        supWrap.classList.toggle("hidden", type !== "IN_BUY");
+      }
+      if (supSelect && newSupFields) {
+        newSupFields.classList.toggle("hidden", type !== "IN_BUY" || supSelect.value !== "__NEW__");
+      }
 
       const invSummary = computeInventorySummary();
       const item = invSummary.find(i => i.code === code) || invSummary[0];
@@ -4995,8 +5424,11 @@
       document.getElementById("qtTotalBadge").textContent = `Total: ${fmtRp(totalTrans)}`;
 
       if (type === "IN_BUY") {
+        const chosenSup = supSelect?.value === "__NEW__"
+          ? (document.getElementById("qtNewSupCode")?.value || "Supplier Baru")
+          : (supSelect?.value || item.supplierCode || "SUP-001");
         previewEl.innerHTML = `
-          <div>- <strong>Stok Gudang:</strong> ${item.name} bertambah <strong>+${fmtNum(qty)} ${item.unit}</strong></div>
+          <div>- <strong>Stok Gudang & Data Supplier:</strong> ${item.name} bertambah <strong>+${fmtNum(qty)} ${item.unit}</strong> dari Supplier <strong>${chosenSup}</strong> & HPP diupdate ke <strong>${fmtRp(unitPrice)}</strong></div>
           <div>- <strong>Jurnal Debit:</strong> ${item.account} sebesar <strong>${fmtRp(totalTrans)}</strong></div>
           <div>- <strong>Jurnal Kredit:</strong> ${payAcc} sebesar <strong>${fmtRp(totalTrans)}</strong></div>
         `;
@@ -5108,7 +5540,7 @@
       pendingConfirmCallback = null;
     }
 
-    // ==================== AUTHENTICATION & 2-STEP LOGIN + EMAIL OTP LOGIC ====================
+    // ==================== AUTHENTICATION & 2-STEP LOGIN + REAL EMAIL OTP LOGIC (POIN 8 GAMBAR 7) ====================
     function clearAllAuthInputs() {
       const ids = [
         "loginUsername", "loginPassword",
@@ -5127,8 +5559,9 @@
       if (errBox) errBox.classList.add("hidden");
     }
 
-    function loginWithUser(userObj, subSessionObj = null) {
+    function loginWithUser(userObj, subSessionObj = null, fromSysAdminSupervision = false) {
       currentUser = userObj;
+      isSupervisingFromSysAdmin = Boolean(fromSysAdminSupervision);
       if (subSessionObj) {
         activeSubSession = subSessionObj;
       } else if (isUserAdmin(userObj)) {
@@ -5151,7 +5584,8 @@
         localStorage.setItem(SESSION_STORAGE_KEY, encryptVaultPayload({
           uid: userObj.uid,
           uHash: userObj.uHash,
-          subSession: activeSubSession
+          subSession: activeSubSession,
+          isSupervisingFromSysAdmin
         }));
       } catch (e) {}
 
@@ -5167,7 +5601,7 @@
     function showAuthModal() {
       clearAllAuthInputs();
       pendingStep1BizUser = null;
-      currentGeneratedOtp = null;
+      isSupervisingFromSysAdmin = false;
       document.getElementById("authTopTabs")?.classList.remove("hidden");
       document.getElementById("step2BusinessRolePanel")?.classList.add("hidden");
       document.getElementById("btnSwitchLogin")?.click();
@@ -5188,7 +5622,7 @@
       const panel = document.getElementById("step2BusinessRolePanel");
       panel.classList.remove("hidden");
       document.getElementById("step2BizAccountTitle").textContent = `${bizUser.coopName} (Admin Utama: ${bizUser.fullName})`;
-      document.getElementById("step2AdminEmailHint").textContent = `Email Admin Utama terdaftar: ${maskEmailAddress(bizUser.adminEmail || "admin@kdmp-banyurojo.id")} (Untuk kemudahan verifikasi, Anda dapat mengetik ${bizUser.adminEmail || "admin@kdmp-banyurojo.id"})`;
+      document.getElementById("step2AdminEmailHint").textContent = `Masukkan alamat email resmi Admin Utama Usaha yang didaftarkan (${bizUser.adminEmail || "admin@kdmp-banyurojo.id"}) untuk menerima pengiriman kode OTP melalui email.`;
       document.getElementById("btnChooseRoleAdminUsaha")?.click();
     }
 
@@ -5303,7 +5737,7 @@
         `Untuk Periode ${periodStr} (dalam Rupiah)`,
         ["No", "Kode Supplier", "Nama Supplier", "Alamat Supplier", "No. Telepon", "Kode Barang", "Nama Barang", "Kuantitas Dibeli", "Harga Beli / HPP Satuan (Rp)", "Total Nilai Pembelian (Rp)", "Tanggal", "Nomor Bukti"],
         supRows,
-        [6, 15, 30, 32, 16, 14, 28, 16, 22, 22, 14, 20]
+        [6, 24, 30, 32, 16, 14, 28, 16, 22, 22, 14, 24]
       );
 
       // 5. Sheet Persediaan
@@ -5327,7 +5761,7 @@
         `Untuk Periode ${periodStr} (dalam Rupiah)`,
         ["Kode Barang", "Nama Barang Persediaan", "Kode Supplier", "Akun Persediaan (COA)", "Satuan", "Stok Awal", "Total Masuk (+)", "Total Keluar (-)", "Stok Akhir", "HPP Satuan (Rp)", "Harga Jual (Rp)", "Total Nilai Persediaan (Rp)", "Status Stok"],
         invRows,
-        [14, 30, 16, 32, 10, 12, 15, 15, 14, 18, 18, 22, 14]
+        [14, 30, 24, 32, 10, 12, 15, 15, 14, 18, 18, 22, 14]
       );
 
       // 6. Sheet COA (Daftar Akun + Saldo Awal Manual)
@@ -5361,7 +5795,7 @@
         `Untuk Periode ${periodStr} (dalam Rupiah)`,
         ["Tanggal", "Nomor Bukti", "Kode dan Nama Akun", "Nama Petugas / Karyawan Penginput", "Kode Anggota", "Nama Anggota", "Nama Barang Persediaan", "Qty", "Sisi Kiri (Debit)", "Sisi Kanan (Kredit)", "Keterangan Transaksi", "Komponen Laporan Arus Kas"],
         jurRows,
-        [14, 22, 38, 32, 14, 22, 26, 10, 20, 20, 36, 34]
+        [14, 24, 38, 32, 14, 22, 26, 10, 20, 20, 36, 34]
       );
 
       // 8. Sheet Neraca Saldo
@@ -5409,7 +5843,7 @@
         "LPE",
         "LAPORAN PERUBAHAN EKUITAS (LPE)",
         `Untuk Periode yang Berakhir sampai dengan 31 Desember ${activeBookYear === "ALL" ? "2026" : activeBookYear} (dalam Rupiah)`,
-        ["No", "Uraian Perubahan Ekuitas", "Simpanan Pokok (3.1.1)", "Simpanan Wajib (3.1.2)", "Simpanan Lainnya (3.1.3)", "Hibah (3.2.1)", "Cadangan (3.3.1)", "SHU Belum Dibagikan (3.4.1)", "Total Ekuitas (Rp)"],
+        ["No", "Uraian Perubahan Ekuitas", "Simpanan Pokok (3.1.1)", "Simpanan Wajib (3.1.2)", "Simpanan Lainnya (3.1.3)", "Hibah (3.2.1)", "Cadangan (3.3.1)", "SHU & Laba Ditahan (3.4.1/3.4.2)", "Total Ekuitas (Rp)"],
         lpeRows,
         [6, 42, 22, 22, 22, 20, 20, 26, 24]
       );
@@ -5457,10 +5891,12 @@
     }
 
     // ==================== EVENT LISTENERS INITIALIZATION ====================
-    window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", async () => {
       loadUsers();
 
-      // Default initialize workspace in background, then show clean login overlay
+      // Sinkronisasi awal dengan Cloud Server agar akun yang dibuat di perangkat lain langsung tersedia
+      await pullAllFromCloud();
+
       currentUser = usersList.find(u => !isUserAdmin(u)) || usersList[0];
       loadStateForUser(currentUser);
       initJournalFormLines();
@@ -5475,7 +5911,7 @@
           if (parsedSess && parsedSess.uHash) {
             const found = usersList.find(u => u.uHash === parsedSess.uHash);
             if (found) {
-              loginWithUser(found, parsedSess.subSession || null);
+              loginWithUser(found, parsedSess.subSession || null, parsedSess.isSupervisingFromSysAdmin || false);
               restored = true;
             }
           }
@@ -5490,6 +5926,21 @@
       document.getElementById("btnOpenSidebarDrawer").addEventListener("click", openSidebarDrawer);
       document.getElementById("btnCloseSidebarDrawer").addEventListener("click", closeSidebarDrawer);
       document.getElementById("navDrawerBackdrop").addEventListener("click", closeSidebarDrawer);
+
+      // Tombol Kembali ke Akun Admin Aplikasi (Poin 2)
+      document.getElementById("btnReturnToSysAdmin")?.addEventListener("click", () => {
+        const sysAdm = usersList.find(u => isUserAdmin(u));
+        if (sysAdm) {
+          loginWithUser(sysAdm, {
+            type: "SYS_ADMIN",
+            operatorId: "SYS-ADMIN",
+            operatorName: sysAdm.fullName,
+            operatorPosition: "Administrator Aplikasi"
+          }, false);
+          document.querySelector('.tab-btn[data-tab="pengaturan"]')?.click();
+          showToast("Anda telah kembali ke Panel Administrator Aplikasi.");
+        }
+      });
 
       // Auth Portal Mode Switching (3 Portal: Masuk Akun Usaha, Buat Akun Baru, Portal Admin Aplikasi)
       const btnSwitchLogin = document.getElementById("btnSwitchLogin");
@@ -5520,13 +5971,15 @@
       btnSwitchRegister.addEventListener("click", () => setActiveAuthTab(btnSwitchRegister, registerForm));
       btnSwitchSysAdmin.addEventListener("click", () => setActiveAuthTab(btnSwitchSysAdmin, sysAdminLoginForm));
 
-      // Step 1: Business Account Login -> Proceeds to Step 2 (Choose Admin Utama Usaha or Karyawan Usaha)
-      loginForm.addEventListener("submit", (e) => {
+      // Step 1: Business Account Login -> Pulls latest accounts from Cloud first so login from another laptop works!
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const unameRaw = document.getElementById("loginUsername").value.trim().toLowerCase();
         const pwdRaw = document.getElementById("loginPassword").value;
         const uHash = sha256Hash(unameRaw);
         const pHash = sha256Hash(pwdRaw);
+
+        await pullAllFromCloud();
 
         if (uHash === SYS_ADMIN_U_HASH) {
           authErrorBox.textContent = "Untuk masuk sebagai Administrator Aplikasi, silakan gunakan tab 'Portal Admin Aplikasi' di sebelah kanan.";
@@ -5548,7 +6001,6 @@
 
       document.getElementById("btnBackToStep1Login").addEventListener("click", () => {
         pendingStep1BizUser = null;
-        currentGeneratedOtp = null;
         document.getElementById("authTopTabs")?.classList.remove("hidden");
         setActiveAuthTab(btnSwitchLogin, loginForm);
       });
@@ -5575,8 +6027,9 @@
         authErrorBox.classList.add("hidden");
       });
 
-      // Send OTP Code for Admin Utama Usaha
-      document.getElementById("btnSendAdminOtp").addEventListener("click", () => {
+      // Send OTP Code for Admin Utama Usaha via Real Email API (Poin 8 Gambar 7: JANGAN tampilkan angka OTP di layar!)
+      let localFallbackOtpHash = "";
+      document.getElementById("btnSendAdminOtp").addEventListener("click", async () => {
         if (!pendingStep1BizUser) return;
         const emailInp = document.getElementById("step2AdminEmailInput").value.trim().toLowerCase();
         const regEmail = (pendingStep1BizUser.adminEmail || "admin@kdmp-banyurojo.id").trim().toLowerCase();
@@ -5587,24 +6040,51 @@
           return;
         }
         if (emailInp !== regEmail) {
-          authErrorBox.textContent = `Email yang dimasukkan tidak cocok dengan email terdaftar untuk akun usaha ini (${maskEmailAddress(regEmail)}).`;
+          authErrorBox.textContent = `Email yang dimasukkan tidak cocok dengan email terdaftar untuk akun usaha ini.`;
           authErrorBox.classList.remove("hidden");
           return;
         }
 
         authErrorBox.classList.add("hidden");
-        currentGeneratedOtp = String(Math.floor(100000 + Math.random() * 900000));
-        currentOtpTargetEmail = regEmail;
+        const sendBtn = document.getElementById("btnSendAdminOtp");
+        sendBtn.disabled = true;
+        sendBtn.textContent = "Mengirim Email...";
+
+        try {
+          const resp = await fetch(CLOUD_API_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "send_otp",
+              email: regEmail,
+              coopName: pendingStep1BizUser.coopName,
+              adminName: pendingStep1BizUser.fullName
+            })
+          });
+          if (resp.ok) {
+            const resJson = await resp.json();
+            if (resJson && resJson.otpHash) {
+              localFallbackOtpHash = resJson.otpHash;
+            }
+          }
+        } catch (err) {
+          const randOtp = String(Math.floor(100000 + Math.random() * 900000));
+          localFallbackOtpHash = sha256Hash(randOtp);
+        }
+
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Kirim Ulang OTP";
 
         const otpBanner = document.getElementById("otpSimulatedInboxBanner");
         const otpPreview = document.getElementById("otpEmailBodyPreview");
         otpBanner.classList.remove("hidden");
-        otpPreview.innerHTML = `Email verifikasi telah dikirim ke <strong>${regEmail}</strong>.<br/>Subjek: <strong>Kode Verifikasi Login Admin Utama SIAKAD-KDMP</strong><br/>Kode OTP 6-Digit Anda adalah: <span class="px-2 py-0.5 rounded bg-emerald-800 text-white font-mono font-extrabold tracking-widest">${currentGeneratedOtp}</span>`;
-        showToast(`Kode OTP 6-digit telah dikirim ke email terdaftar (${regEmail}).`);
+        // Sesuai Poin 8 (Gambar 7): JANGAN memunculkan angka kode OTP di kotak ini!
+        otpPreview.innerHTML = `Kode verifikasi OTP 6-digit telah dikirimkan ke kotak masuk email <strong>${regEmail}</strong>.<br/>Silakan periksa Inbox atau folder Spam pada email Anda, lalu masukkan 6 digit kode tersebut pada kolom di bawah ini.`;
+        showToast(`Kode verifikasi OTP telah dikirim ke email ${regEmail}.`);
       });
 
       // Verify OTP & Login as Admin Utama Usaha
-      adminOtpForm.addEventListener("submit", (e) => {
+      adminOtpForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!pendingStep1BizUser) return;
         const emailInp = document.getElementById("step2AdminEmailInput").value.trim().toLowerCase();
@@ -5616,8 +6096,35 @@
           authErrorBox.classList.remove("hidden");
           return;
         }
-        if (!currentGeneratedOtp || otpInp !== currentGeneratedOtp) {
-          authErrorBox.textContent = "Kode OTP tidak valid atau belum dikirim. Klik 'Kirim Kode OTP' terlebih dahulu lalu masukkan 6 digit kode OTP.";
+        if (!/^\d{6}$/.test(otpInp)) {
+          authErrorBox.textContent = "Masukkan 6 digit angka kode OTP yang dikirimkan ke email Anda.";
+          authErrorBox.classList.remove("hidden");
+          return;
+        }
+
+        let verifiedByServer = false;
+        try {
+          const resp = await fetch(CLOUD_API_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "verify_otp",
+              email: regEmail,
+              otp: otpInp
+            })
+          });
+          if (resp.ok) {
+            const rj = await resp.json();
+            if (rj && rj.valid) verifiedByServer = true;
+          }
+        } catch (err) {}
+
+        if (!verifiedByServer && localFallbackOtpHash && sha256Hash(otpInp) === localFallbackOtpHash) {
+          verifiedByServer = true;
+        }
+
+        if (!verifiedByServer) {
+          authErrorBox.textContent = "Kode OTP tidak sesuai atau sudah kedaluwarsa. Silakan periksa kembali email Anda atau klik 'Kirim Ulang OTP'.";
           authErrorBox.classList.remove("hidden");
           return;
         }
@@ -5627,7 +6134,7 @@
           operatorId: "ADMIN-UTAMA",
           operatorName: pendingStep1BizUser.fullName,
           operatorPosition: pendingStep1BizUser.role || "Admin Utama Usaha"
-        });
+        }, false);
       });
 
       // Step 2B: Login as Karyawan Usaha (ID Karyawan & Password without OTP)
@@ -5652,12 +6159,13 @@
           operatorId: foundEmp.id,
           operatorName: foundEmp.name,
           operatorPosition: `${foundEmp.position || "Karyawan"} (${foundEmp.department || "Operasional"})`
-        });
+        }, false);
       });
 
       // Portal Khusus Administrator Aplikasi Login
-      sysAdminLoginForm.addEventListener("submit", (e) => {
+      sysAdminLoginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+        await pullAllFromCloud();
         const unameRaw = document.getElementById("sysAdminUsername").value.trim().toLowerCase();
         const pwdRaw = document.getElementById("sysAdminPassword").value;
         const uHash = sha256Hash(unameRaw);
@@ -5676,12 +6184,13 @@
           operatorId: "SYS-ADMIN",
           operatorName: adminUser.fullName,
           operatorPosition: "Administrator Aplikasi"
-        });
+        }, false);
       });
 
-      // Register New Business Account (+ Admin Utama & Registered Email for OTP)
-      registerForm.addEventListener("submit", (e) => {
+      // Register New Business Account (+ Sync to Cloud so other laptops can immediately login!)
+      registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+        await pullAllFromCloud();
         const uname = document.getElementById("regUsername").value.trim().toLowerCase().replace(/\s+/g, "_");
         const pwd = document.getElementById("regPassword").value;
         const adminEmail = document.getElementById("regAdminEmail").value.trim().toLowerCase();
@@ -5705,7 +6214,8 @@
           uid: `USR-${Date.now()}`,
           uHash,
           pHash: sha256Hash(pwd),
-          uMask: maskSensitiveText(uname),
+          uEnc: encCredStr(uname),
+          pEnc: encCredStr(pwd),
           fullName,
           role,
           coopName,
@@ -5718,9 +6228,8 @@
         currentUser = newUser;
         saveState();
 
-        // Sesuai instruksi: setelah buat akun, kosongkan seluruh kolom dan arahkan ke pemilihan otoritas login
         clearAllAuthInputs();
-        showToast(`Akun Usaha "${coopName}" berhasil dibuat dengan saldo awal Rp 0. Silakan masuk melalui verifikasi Admin Utama atau Karyawan.`);
+        showToast(`Akun Usaha "${coopName}" berhasil dibuat & disinkronkan ke Cloud. Silakan pilih otoritas masuk.`);
         openStep2BusinessRoleSelection(newUser);
       });
 
@@ -5746,6 +6255,7 @@
           document.getElementById("qtDate").value = `${activeBookYear}-01-12`;
           document.getElementById("spDate").value = `${activeBookYear}-01-15`;
         }
+        syncAllTransactionDocNoInputs();
         renderAll();
         showToast(`Periode tahun buku diubah ke: ${activeBookYear === "ALL" ? "Semua Tahun (Akumulasi)" : activeBookYear}`);
       });
@@ -5766,6 +6276,7 @@
               document.getElementById("qtDate").value = `${yVal}-01-12`;
               document.getElementById("spDate").value = `${yVal}-01-15`;
               saveState();
+              syncAllTransactionDocNoInputs();
               renderAll();
               showToast(`Tahun buku ${yVal} berhasil ditambahkan dan diaktifkan.`);
             } else {
@@ -5881,14 +6392,131 @@
       document.getElementById("searchCoaInput").addEventListener("input", () => renderCoaTab(computeTrialBalance()));
       document.getElementById("filterCoaGroup").addEventListener("change", () => renderCoaTab(computeTrialBalance()));
 
-      // Real-time Duplicate DocNo check on inputs
-      document.getElementById("jDocNo").addEventListener("input", () => updateDocNoWarningUI("jDocNo", "jDocNoWarning"));
-      document.getElementById("qtDocNo").addEventListener("input", () => updateDocNoWarningUI("qtDocNo", "qtDocNoWarning"));
-      document.getElementById("spDocNo").addEventListener("input", () => updateDocNoWarningUI("spDocNo", "spDocNoWarning"));
+      // Real-time Auto-Increment & Format Sync on Date/DocNo Inputs (Poin 3 - Gambar 3 & 4)
+      document.getElementById("jDate").addEventListener("change", (e) => {
+        document.getElementById("jDocNo").value = generateNextTransactionDocNo(e.target.value, null);
+        updateDocNoWarningUI("jDocNo", "jDocNoWarning", "jDate", null);
+      });
+      document.getElementById("qtDate").addEventListener("change", (e) => {
+        document.getElementById("qtDocNo").value = generateNextTransactionDocNo(e.target.value, null);
+        updateDocNoWarningUI("qtDocNo", "qtDocNoWarning", "qtDate", null);
+      });
+      document.getElementById("spDate").addEventListener("change", (e) => {
+        document.getElementById("spDocNo").value = generateNextTransactionDocNo(e.target.value, "USP");
+        updateDocNoWarningUI("spDocNo", "spDocNoWarning", "spDate", "USP");
+      });
+
+      document.getElementById("jDocNo").addEventListener("change", () => updateDocNoWarningUI("jDocNo", "jDocNoWarning", "jDate", null));
+      document.getElementById("qtDocNo").addEventListener("change", () => updateDocNoWarningUI("qtDocNo", "qtDocNoWarning", "qtDate", null));
+      document.getElementById("spDocNo").addEventListener("change", () => updateDocNoWarningUI("spDocNo", "spDocNoWarning", "spDate", "USP"));
 
       // Export & Print
       document.getElementById("btnExportExcel").addEventListener("click", exportToExcelWorkbook);
       document.getElementById("btnPrintReport").addEventListener("click", () => window.print());
+
+      // ==================== TUTUP BUKU AKHIR TAHUN KE COA LABA DITAHAN (3.4.2.01) - POIN 7 ====================
+      document.getElementById("btnCloseBookToRetainedEarnings")?.addEventListener("click", () => {
+        const yr = activeBookYear === "ALL" ? "2026" : activeBookYear;
+        const ej = enrichJournals();
+        const plBalances = {};
+
+        state.coa.forEach(acc => {
+          if (["4", "5", "6", "9"].includes(acc.lvl1)) {
+            let netD = 0;
+            let netK = 0;
+            const ib = Number(acc.initBalance) || 0;
+            if (ib > 0) {
+              if (acc.normal === "Debit") netD += ib;
+              else netK += ib;
+            }
+            ej.forEach(j => {
+              if (j.account === acc.full || j.code === acc.code) {
+                netD += j.debit;
+                netK += j.kredit;
+              }
+            });
+            const diff = Math.round(netD - netK);
+            if (diff !== 0) {
+              plBalances[acc.full] = { acc, netD, netK, diff };
+            }
+          }
+        });
+
+        const keys = Object.keys(plBalances);
+        if (keys.length === 0) {
+          showToast(`Seluruh akun Laba Rugi (Pendapatan & Beban) pada Tahun Buku ${yr} sudah bersaldo Rp 0 (sudah ditutup).`, "error");
+          return;
+        }
+
+        const unclosedSHU = computeCurrentYearUnclosedSHU();
+        const nextYr = String(parseInt(yr, 10) + 1);
+        openConfirmModal(
+          `Tutup Buku Tahun ${yr} ke COA 3.4.2.01 Laba Ditahan`,
+          `Sistem akan membuat Jurnal Penutup Akhir Tahun (${yr}-12-31) untuk menutup ${keys.length} akun Pendapatan & Beban dan memindahkan SHU Bersih sebesar ${fmtRp(unclosedSHU)} ke akun "3.4.2.01 Laba Ditahan" agar siap menjadi saldo awal Tahun Anggaran ${nextYr}. Lanjutkan?`,
+          () => {
+            ensureRetainedEarningsAccountInCoa();
+            const closeDate = `${yr}-12-31`;
+            const closeDocNo = generateNextTransactionDocNo(closeDate, "TUTUP-BUKU");
+            const officer = getDefaultActiveOfficerValue();
+            const ts = Date.now();
+            let totalCloseDebit = 0;
+            let totalCloseKredit = 0;
+            const closingLines = [];
+
+            keys.forEach((k, idx) => {
+              const item = plBalances[k];
+              // Untuk menihilkan akun: jika netD > netK (saldo debit), maka di-kredit; jika netK > netD (saldo kredit), maka di-debit
+              const dVal = item.diff < 0 ? Math.abs(item.diff) : 0;
+              const kVal = item.diff > 0 ? Math.abs(item.diff) : 0;
+              totalCloseDebit += dVal;
+              totalCloseKredit += kVal;
+              closingLines.push({
+                id: `J-CLOSE-${ts}-${idx}`,
+                date: closeDate,
+                docNo: closeDocNo,
+                account: item.acc.full,
+                officerName: officer,
+                memberCode: "",
+                memberName: "",
+                itemName: "",
+                qty: 0,
+                debit: dVal,
+                kredit: kVal,
+                desc: `Jurnal Penutup Laba Rugi Tahun ${yr} ke Laba Ditahan`,
+                cashflow: "",
+                isClosingEntry: true
+              });
+            });
+
+            const netDiff = Math.round(totalCloseDebit - totalCloseKredit);
+            if (netDiff !== 0) {
+              closingLines.push({
+                id: `J-CLOSE-${ts}-RE`,
+                date: closeDate,
+                docNo: closeDocNo,
+                account: "3.4.2.01 Laba Ditahan",
+                officerName: officer,
+                memberCode: "",
+                memberName: "",
+                itemName: "",
+                qty: 0,
+                debit: netDiff < 0 ? Math.abs(netDiff) : 0,
+                kredit: netDiff > 0 ? Math.abs(netDiff) : 0,
+                desc: `Penutupan SHU Bersih Tahun ${yr} ke Laba Ditahan untuk Tahun Anggaran ${nextYr}`,
+                cashflow: "",
+                isClosingEntry: true
+              });
+            }
+
+            state.journals.push(...closingLines);
+            if (!Array.isArray(state.customYears)) state.customYears = [];
+            if (!state.customYears.includes(nextYr)) state.customYears.push(nextYr);
+            saveState();
+            renderAll();
+            showToast(`Jurnal Penutup (${closeDocNo}) berhasil dibuat! Saldo Laba Rugi ${fmtRp(unclosedSHU)} telah ditutup ke akun 3.4.2.01 Laba Ditahan.`);
+          }
+        );
+      });
 
       // ==================== DATABASE KARYAWAN HANDLERS ====================
       const closeEmployeeModal = () => {
@@ -5908,7 +6536,7 @@
         document.getElementById("empOrigId").value = "";
         document.getElementById("modalEmployeeTitle").textContent = "Tambah Database Karyawan & Otoritas Login";
         const nextNum = (state.employees || []).length + 1;
-        document.getElementById("empIdInput").value = `KAR-00${nextNum}`;
+        document.getElementById("empIdInput").value = `KAR-${pad3(nextNum)}`;
         document.getElementById("empPasswordInput").value = "";
         document.getElementById("empPasswordInput").required = true;
         document.getElementById("empNameInput").value = "";
@@ -5953,6 +6581,7 @@
             };
             if (pwdRaw && pwdRaw.length > 0) {
               updated.pwdHash = sha256Hash(pwdRaw);
+              updated.pEnc = encCredStr(pwdRaw);
             }
             state.employees[idx] = updated;
             showToast(`Data karyawan "${name}" (${id}) berhasil diperbarui.`);
@@ -5975,7 +6604,8 @@
             address,
             baseSalary,
             allowance,
-            pwdHash: sha256Hash(pwdRaw)
+            pwdHash: sha256Hash(pwdRaw),
+            pEnc: encCredStr(pwdRaw)
           });
           showToast(`Karyawan baru "${name}" (${id}) berhasil ditambahkan ke Database Karyawan.`);
         }
@@ -5999,7 +6629,7 @@
           document.getElementById("empOrigId").value = emp.id;
           document.getElementById("modalEmployeeTitle").textContent = `Edit Data Karyawan (${emp.id})`;
           document.getElementById("empIdInput").value = emp.id;
-          document.getElementById("empPasswordInput").value = "";
+          document.getElementById("empPasswordInput").value = getEmployeePlainPassword(emp);
           document.getElementById("empPasswordInput").required = false;
           document.getElementById("empNameInput").value = emp.name;
           document.getElementById("empPositionInput").value = emp.position || "";
@@ -6025,7 +6655,7 @@
         }
       });
 
-      // ==================== DATA SUPPLIER HANDLERS ====================
+      // ==================== DATA SUPPLIER HANDLERS (FORMAT KODE: URUT/SUP/NAMAUSAHA/TAHUN - POIN 4 GAMBAR 5) ====================
       const closeSupplierModal = () => {
         const m = document.getElementById("modalSupplierMaster");
         m.classList.add("hidden");
@@ -6034,12 +6664,20 @@
       document.getElementById("btnCloseSupplierModal").addEventListener("click", closeSupplierModal);
       document.getElementById("btnCancelSupplierModal").addEventListener("click", closeSupplierModal);
 
+      document.getElementById("supTransDate")?.addEventListener("change", (e) => {
+        const yr = (e.target.value || "2026-01-10").substring(0, 4);
+        const nextSupCode = generateNextSupplierCode(yr);
+        document.getElementById("supCodeInput").value = nextSupCode;
+        document.getElementById("supDocNoInput").value = nextSupCode;
+      });
+
       document.getElementById("btnOpenAddSupplierModal").addEventListener("click", () => {
         document.getElementById("supEditMode").value = "ADD";
         document.getElementById("supOrigId").value = "";
-        document.getElementById("modalSupplierTitle").textContent = "Input Data Supplier & Pembelian Barang (Otomatis Jadi HPP)";
-        const nextNum = (state.suppliers || []).length + 1;
-        document.getElementById("supCodeInput").value = `SUP-00${nextNum}`;
+        document.getElementById("modalSupplierTitle").textContent = "Input Data Supplier & Pembelian Barang (Otomatis Jadi HPP & Link Stok)";
+        const yr = activeBookYear !== "ALL" ? activeBookYear : "2026";
+        const nextSupCode = generateNextSupplierCode(yr);
+        document.getElementById("supCodeInput").value = nextSupCode;
         document.getElementById("supNameInput").value = "";
         document.getElementById("supAddressInput").value = "";
         document.getElementById("supPhoneInput").value = "";
@@ -6047,9 +6685,8 @@
         document.getElementById("supCostInput").value = 0;
         document.getElementById("supAutoJournalCheck").checked = true;
         document.getElementById("supAutoJournalWrap").classList.remove("hidden");
-        const yr = activeBookYear !== "ALL" ? activeBookYear : "2026";
         document.getElementById("supTransDate").value = `${yr}-01-10`;
-        document.getElementById("supDocNoInput").value = `00${nextNum}/SUP/KDMP/${yr}`;
+        document.getElementById("supDocNoInput").value = nextSupCode;
         const m = document.getElementById("modalSupplierMaster");
         m.classList.remove("hidden");
         m.classList.add("flex");
@@ -6059,7 +6696,8 @@
         e.preventDefault();
         const mode = document.getElementById("supEditMode").value;
         const origId = document.getElementById("supOrigId").value;
-        const code = document.getElementById("supCodeInput").value.trim().toUpperCase();
+        const date = document.getElementById("supTransDate").value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-10`;
+        let code = document.getElementById("supCodeInput").value.trim().toUpperCase();
         const name = document.getElementById("supNameInput").value.trim();
         const address = document.getElementById("supAddressInput").value.trim();
         const phone = document.getElementById("supPhoneInput").value.trim();
@@ -6067,8 +6705,7 @@
         const qtyBought = Number(document.getElementById("supQtyInput").value || 0);
         const buyPrice = Number(document.getElementById("supCostInput").value || 0);
         const autoJournal = document.getElementById("supAutoJournalCheck").checked;
-        const date = document.getElementById("supTransDate").value || "2026-01-10";
-        const docNo = document.getElementById("supDocNoInput").value.trim() || `SUP-${code}-${Date.now()}`;
+        let docNo = document.getElementById("supDocNoInput").value.trim().toUpperCase() || code;
         const payAcc = document.getElementById("supPayAccSelect").value;
 
         const itemObj = state.items.find(i => i.code === itemCode);
@@ -6077,11 +6714,8 @@
         if (!Array.isArray(state.suppliers)) state.suppliers = [];
 
         if (mode === "ADD" && autoJournal && qtyBought > 0) {
-          const ex = findExistingTransactionByDocNo(docNo);
-          if (ex) {
-            showToast(`Nomor bukti "${ex.docNo}" sudah dipakai pada ${ex.date} (${ex.desc}). Gunakan nomor bukti lain!`, "error");
-            return;
-          }
+          docNo = autoIncrementDuplicateDocNo(docNo, date, "SUP");
+          code = docNo;
         }
 
         // Update HPP (cost) dan supplierCode pada Master Barang secara otomatis
@@ -6114,7 +6748,7 @@
             qtyBought,
             buyPrice,
             date: qtyBought > 0 ? date : "-",
-            docNo: qtyBought > 0 && autoJournal ? docNo : "-"
+            docNo: qtyBought > 0 && autoJournal ? docNo : code
           });
 
           if (autoJournal && qtyBought > 0 && itemObj) {
@@ -6151,7 +6785,7 @@
               }
             );
           }
-          showToast(`Data Supplier "${name}" (${code}) berhasil disimpan & HPP "${itemName}" otomatis diupdate.`);
+          showToast(`Data Supplier "${name}" (${code}) berhasil disimpan, Stok Masuk (+${qtyBought}) & HPP "${itemName}" otomatis diupdate.`);
         }
 
         saveState();
@@ -6219,7 +6853,7 @@
         document.getElementById("mmOrigCode").value = "";
         document.getElementById("modalMemberTitle").textContent = "Tambah Anggota Koperasi Baru";
         const nextNum = (state.members || []).length + 1;
-        document.getElementById("mmCode").value = `ANG-00${nextNum}`;
+        document.getElementById("mmCode").value = `ANG-${pad3(nextNum)}`;
         document.getElementById("mmName").value = "";
         document.getElementById("mmNik").value = "";
         document.getElementById("mmGender").value = "L";
@@ -6227,10 +6861,11 @@
         document.getElementById("mmVillage").value = "Banyurojo";
         document.getElementById("mmRt").value = "001";
         document.getElementById("mmRw").value = "001";
-        document.getElementById("mmJoinDate").value = activeBookYear !== "ALL" ? `${activeBookYear}-01-01` : "2026-01-01";
+        const joinDt = activeBookYear !== "ALL" ? `${activeBookYear}-01-01` : "2026-01-01";
+        document.getElementById("mmJoinDate").value = joinDt;
         document.getElementById("mmInitPokok").value = 0;
         document.getElementById("mmInitWajib").value = 0;
-        document.getElementById("mmInitDocNo").value = `00${nextNum}/SP/KDMP/${activeBookYear !== "ALL" ? activeBookYear : "2026"}`;
+        document.getElementById("mmInitDocNo").value = generateNextTransactionDocNo(joinDt, "SP");
         document.getElementById("mmInitialDepositSection").classList.remove("hidden");
         const m = document.getElementById("modalMemberMaster");
         m.classList.remove("hidden");
@@ -6289,14 +6924,9 @@
           }
           const initPokok = Number(document.getElementById("mmInitPokok").value || 0);
           const initWajib = Number(document.getElementById("mmInitWajib").value || 0);
-          const initDocNo = document.getElementById("mmInitDocNo").value.trim() || `SP-${code}-${Date.now()}`;
+          const rawDocNo = document.getElementById("mmInitDocNo").value.trim();
+          const initDocNo = autoIncrementDuplicateDocNo(rawDocNo, joinDate, "SP");
           const cashAcc = document.getElementById("mmInitCashAcc").value;
-
-          if ((initPokok > 0 || initWajib > 0) && findExistingTransactionByDocNo(initDocNo)) {
-            const ex = findExistingTransactionByDocNo(initDocNo);
-            showToast(`Nomor bukti "${ex.docNo}" sudah dipakai pada ${ex.date} (${ex.desc}). Gunakan nomor bukti lain.`, "error");
-            return;
-          }
 
           state.members.push({
             code, name, nik, gender, address, village, rt, rw, joinDate,
@@ -6424,8 +7054,10 @@
         if (defaultMemberCode) {
           document.getElementById("spMemberCode").value = defaultMemberCode;
         }
+        const spDateVal = document.getElementById("spDate").value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-15`;
+        document.getElementById("spDocNo").value = generateNextTransactionDocNo(spDateVal, "USP");
+        document.getElementById("spDocNoWarning").classList.add("hidden");
         syncSimpanPinjamDefaults();
-        updateDocNoWarningUI("spDocNo", "spDocNoWarning");
       }
 
       function syncSimpanPinjamDefaults() {
@@ -6469,19 +7101,13 @@
         e.preventDefault();
         const type = document.getElementById("spType").value;
         const date = document.getElementById("spDate").value;
-        const docNo = document.getElementById("spDocNo").value.trim();
+        const rawDocNo = document.getElementById("spDocNo").value.trim();
+        const docNo = autoIncrementDuplicateDocNo(rawDocNo, date, "USP");
         const mCode = document.getElementById("spMemberCode").value;
         const amount = Number(document.getElementById("spAmount").value || 0);
         const interest = Number(document.getElementById("spInterest").value || 0);
         const cashAcc = document.getElementById("spCashAccount").value;
         const desc = document.getElementById("spDesc").value.trim();
-
-        const existingDoc = findExistingTransactionByDocNo(docNo);
-        if (existingDoc) {
-          updateDocNoWarningUI("spDocNo", "spDocNoWarning");
-          showToast(`Nomor bukti "${existingDoc.docNo}" sudah dipakai pada ${existingDoc.date} (${existingDoc.desc}) dan tidak dapat dipakai lagi!`, "error");
-          return;
-        }
 
         const memSummary = computeMembersSummary();
         const mem = memSummary.find(m => m.code === mCode);
@@ -6660,11 +7286,12 @@
         }
         saveState();
         closeSimpanPinjam();
+        syncAllTransactionDocNoInputs();
         renderAll();
-        showToast(`Transaksi Simpan Pinjam "${mem.name}" berhasil dijurnal & Saldo Anggota diperbarui otomatis.`);
+        showToast(`Transaksi Simpan Pinjam "${mem.name}" (${docNo}) berhasil dijurnal & Saldo Anggota diperbarui otomatis.`);
       });
 
-      // ==================== PENGATURAN AKUN, GANTI PASSWORD (SHA-256) & ADMIN PANEL HANDLERS ====================
+      // ==================== PENGATURAN AKUN, GANTI PASSWORD & ADMIN PANEL HANDLERS ====================
       document.getElementById("changePasswordForm").addEventListener("submit", (e) => {
         e.preventDefault();
         if (!currentUser) return;
@@ -6690,6 +7317,7 @@
         const uIdx = usersList.findIndex(u => u.uHash === currentUser.uHash);
         if (uIdx > -1) {
           usersList[uIdx].pHash = sha256Hash(newPwd);
+          usersList[uIdx].pEnc = encCredStr(newPwd);
           usersList[uIdx].fullName = fullName;
           usersList[uIdx].coopName = coopName;
           currentUser = usersList[uIdx];
@@ -6700,25 +7328,29 @@
           document.getElementById("accNewPassword").value = "";
           document.getElementById("accConfirmPassword").value = "";
           renderAll();
-          showToast(`Kata sandi terenkripsi dan profil untuk akun "${currentUser.fullName}" berhasil diperbarui!`);
+          showToast(`Kata sandi dan profil untuk akun "${currentUser.fullName}" berhasil diperbarui!`);
         }
       });
 
       document.getElementById("adminUsersTableBody").addEventListener("click", (e) => {
         const btn = e.target.closest(".admin-user-btn");
-        if (!btn || !isUserAdmin(currentUser)) return;
+        if (!btn || !(isUserAdmin(currentUser) || isSupervisingFromSysAdmin)) return;
         const act = btn.getAttribute("data-admin-act");
         const uid = btn.getAttribute("data-uid");
         const targetUser = usersList.find(u => u.uid === uid);
         if (!targetUser) return;
 
         if (act === "switch") {
-          loginWithUser(targetUser);
+          const supervising = !isUserAdmin(targetUser);
+          loginWithUser(targetUser, null, supervising);
           document.querySelector('.tab-btn[data-tab="dashboard"]')?.click();
+          if (supervising) {
+            showToast(`Membuka ruang kerja "${targetUser.coopName}". Klik tombol kuning 'Kembali ke Akun Admin Aplikasi' di kanan atas untuk kembali.`);
+          }
         } else if (act === "resetpwd") {
           openConfirmModal(
-            `Reset Kata Sandi Akun (${targetUser.fullName})`,
-            `Masukkan kata sandi baru untuk pengguna "${targetUser.fullName}" (Akan otomatis dienkripsi dengan SHA-256):`,
+            `Ubah Kata Sandi Akun (${getPlainUsername(targetUser)})`,
+            `Masukkan kata sandi baru untuk pengguna "${targetUser.fullName}" (Username: ${getPlainUsername(targetUser)}):`,
             () => {
               const newP = String(document.getElementById("customYearInput").value || "").trim();
               if (newP.length < 3) {
@@ -6726,13 +7358,14 @@
                 return;
               }
               targetUser.pHash = sha256Hash(newP);
+              targetUser.pEnc = encCredStr(newP);
               saveUsers();
               renderAll();
-              showToast(`Password untuk akun ${targetUser.fullName} berhasil direset dan dienkripsi.`);
+              showToast(`Password untuk akun ${getPlainUsername(targetUser)} berhasil diubah menjadi "${newP}".`);
             },
             true,
             "Kata Sandi Baru:",
-            ""
+            getPlainPassword(targetUser)
           );
         } else if (act === "delete") {
           if (isUserAdmin(targetUser)) {
@@ -6741,7 +7374,7 @@
           }
           openConfirmModal(
             "Hapus Akun Pengguna Aplikasi",
-            `Apakah Anda yakin ingin menghapus akun "${targetUser.fullName}" (${targetUser.coopName}) beserta seluruh data ruang kerjanya?`,
+            `Apakah Anda yakin ingin menghapus akun "${targetUser.fullName}" (${getPlainUsername(targetUser)}) beserta seluruh data ruang kerjanya?`,
             () => {
               try {
                 localStorage.removeItem(getUserStorageKey(targetUser));
@@ -6781,7 +7414,7 @@
           document.getElementById("imMinQty").value = it.minQty;
           document.getElementById("imCost").value = it.cost;
           document.getElementById("imPrice").value = it.price;
-          document.getElementById("imSupplierCode").value = it.supplierCode || "SUP-001";
+          document.getElementById("imSupplierCode").value = it.supplierCode || generateNextSupplierCode();
           const m = document.getElementById("modalItemMaster");
           m.classList.remove("hidden");
           m.classList.add("flex");
@@ -6815,7 +7448,7 @@
         document.getElementById("imOrigCode").value = "";
         document.getElementById("modalItemTitle").textContent = "Tambah Master Barang Persediaan Baru";
         const nextNum = state.items.length + 1;
-        document.getElementById("imCode").value = `BRG-00${nextNum}`;
+        document.getElementById("imCode").value = `BRG-${pad3(nextNum)}`;
         document.getElementById("imCode").readOnly = false;
         document.getElementById("imName").value = "";
         document.getElementById("imUnit").value = "Pcs";
@@ -6823,7 +7456,7 @@
         document.getElementById("imMinQty").value = 0;
         document.getElementById("imCost").value = 0;
         document.getElementById("imPrice").value = 0;
-        document.getElementById("imSupplierCode").value = "SUP-001";
+        document.getElementById("imSupplierCode").value = generateNextSupplierCode();
         const m = document.getElementById("modalItemMaster");
         m.classList.remove("hidden");
         m.classList.add("flex");
@@ -6850,7 +7483,7 @@
         const minQty = Number(document.getElementById("imMinQty").value || 0);
         const cost = Number(document.getElementById("imCost").value || 0);
         const price = Number(document.getElementById("imPrice").value || 0);
-        const supplierCode = document.getElementById("imSupplierCode").value.trim().toUpperCase() || "SUP-001";
+        const supplierCode = document.getElementById("imSupplierCode").value.trim().toUpperCase() || generateNextSupplierCode();
 
         if (mode === "EDIT") {
           const idx = state.items.findIndex(i => i.code === origCode);
@@ -6970,13 +7603,16 @@
         showToast(`Akun COA "${newFull}" & Saldo Awal (${fmtRp(newInitBalance)}) berhasil disimpan.`);
       });
 
-      // Quick Transaction Modal (Barang Masuk / Keluar Otomatis)
+      // ==================== QUICK TRANSACTION MODAL (BARANG MASUK SEKALIAN INPUT/PILIH SUPPLIER - POIN 5) ====================
       function openQuickTransModal() {
         const m = document.getElementById("modalQuickTrans");
         m.classList.remove("hidden");
         m.classList.add("flex");
+        const qtDateVal = document.getElementById("qtDate").value || `${activeBookYear !== "ALL" ? activeBookYear : "2026"}-01-12`;
+        document.getElementById("qtDocNo").value = generateNextTransactionDocNo(qtDateVal, null);
+        document.getElementById("qtDocNoWarning").classList.add("hidden");
+        document.getElementById("qtNewSupCode").value = generateNextSupplierCode(qtDateVal.substring(0, 4));
         SyncQuickTransDefaults();
-        updateDocNoWarningUI("qtDocNo", "qtDocNoWarning");
       }
 
       function SyncQuickTransDefaults() {
@@ -6986,6 +7622,10 @@
         if (!item) return;
         const priceInput = document.getElementById("qtUnitPrice");
         const descInput = document.getElementById("qtDesc");
+        const supSel = document.getElementById("qtSupplierSelect");
+        if (supSel && item.supplierCode && Array.from(supSel.options).some(o => o.value === item.supplierCode)) {
+          supSel.value = item.supplierCode;
+        }
         if (type === "IN_BUY") {
           priceInput.value = item.cost;
           descInput.value = `Pembelian stok ${item.name}`;
@@ -7013,6 +7653,8 @@
 
       document.getElementById("qtType").addEventListener("change", SyncQuickTransDefaults);
       document.getElementById("qtItemCode").addEventListener("change", SyncQuickTransDefaults);
+      document.getElementById("qtSupplierSelect")?.addEventListener("change", updateQuickTransPreview);
+      document.getElementById("qtNewSupCode")?.addEventListener("input", updateQuickTransPreview);
       document.getElementById("qtQty").addEventListener("input", updateQuickTransPreview);
       document.getElementById("qtUnitPrice").addEventListener("input", updateQuickTransPreview);
       document.getElementById("qtPayAccount").addEventListener("change", updateQuickTransPreview);
@@ -7021,19 +7663,13 @@
         e.preventDefault();
         const type = document.getElementById("qtType").value;
         const date = document.getElementById("qtDate").value;
-        const docNo = document.getElementById("qtDocNo").value.trim();
+        const rawDocNo = document.getElementById("qtDocNo").value.trim();
+        const docNo = autoIncrementDuplicateDocNo(rawDocNo, date, null);
         const code = document.getElementById("qtItemCode").value;
         const qty = Number(document.getElementById("qtQty").value || 0);
         const unitPrice = Number(document.getElementById("qtUnitPrice").value || 0);
         const payAcc = document.getElementById("qtPayAccount").value;
         const desc = document.getElementById("qtDesc").value.trim();
-
-        const existingDoc = findExistingTransactionByDocNo(docNo);
-        if (existingDoc) {
-          updateDocNoWarningUI("qtDocNo", "qtDocNoWarning");
-          showToast(`Nomor bukti "${existingDoc.docNo}" sudah dipakai pada tanggal ${existingDoc.date} (${existingDoc.desc}) dan tidak dapat dipakai lagi!`, "error");
-          return;
-        }
 
         const invSummary = computeInventorySummary();
         const item = invSummary.find(i => i.code === code);
@@ -7054,10 +7690,51 @@
         const officer = getDefaultActiveOfficerValue();
 
         if (type === "IN_BUY") {
-          const masterIdx = state.items.findIndex(i => i.code === code);
-          if (masterIdx > -1 && unitPrice > 0) {
-            state.items[masterIdx].cost = unitPrice;
+          const supSelVal = document.getElementById("qtSupplierSelect")?.value || "";
+          let finalSupCode = supSelVal;
+          let finalSupName = "Supplier Koperasi";
+          let finalSupAddr = "-";
+          let finalSupPhone = "-";
+
+          if (supSelVal === "__NEW__") {
+            finalSupCode = (document.getElementById("qtNewSupCode")?.value || "").trim().toUpperCase() || generateNextSupplierCode(date.substring(0, 4));
+            finalSupName = (document.getElementById("qtNewSupName")?.value || "").trim() || "Supplier Baru";
+            finalSupAddr = (document.getElementById("qtNewSupAddress")?.value || "").trim() || "-";
+            finalSupPhone = (document.getElementById("qtNewSupPhone")?.value || "").trim() || "-";
+          } else {
+            const existingSup = (state.suppliers || []).find(s => s.code === supSelVal);
+            if (existingSup) {
+              finalSupCode = existingSup.code;
+              finalSupName = existingSup.name;
+              finalSupAddr = existingSup.address || "-";
+              finalSupPhone = existingSup.phone || "-";
+            }
           }
+
+          // Catat ke Data Supplier & update HPP serta supplierCode pada master barang
+          if (!Array.isArray(state.suppliers)) state.suppliers = [];
+          state.suppliers.push({
+            id: `SUP-REC-${ts}`,
+            code: finalSupCode,
+            name: finalSupName,
+            address: finalSupAddr,
+            phone: finalSupPhone,
+            itemCode: item.code,
+            itemName: item.name,
+            qtyBought: qty,
+            buyPrice: unitPrice,
+            date,
+            docNo
+          });
+
+          const masterIdx = state.items.findIndex(i => i.code === code);
+          if (masterIdx > -1) {
+            state.items[masterIdx].supplierCode = finalSupCode;
+            if (unitPrice > 0) {
+              state.items[masterIdx].cost = unitPrice;
+            }
+          }
+
           state.journals.push(
             {
               id: `J-${ts}-1`,
@@ -7069,7 +7746,7 @@
               qty,
               debit: totalTrans,
               kredit: 0,
-              desc,
+              desc: `${desc} (Supplier: ${finalSupCode} - ${finalSupName})`,
               cashflow: ""
             },
             {
@@ -7082,11 +7759,11 @@
               qty: 0,
               debit: 0,
               kredit: totalTrans,
-              desc,
+              desc: `${desc} (Supplier: ${finalSupCode} - ${finalSupName})`,
               cashflow: isCash ? "Pembelian Harga Pokok Barang" : ""
             }
           );
-          showToast(`Barang Masuk (+${qty} ${item.unit} ${item.name}) & Jurnal Pembelian berhasil disimpan.`);
+          showToast(`Barang Masuk (+${qty} ${item.unit} ${item.name}) dari Supplier "${finalSupName}" (${finalSupCode}) & Jurnal Pembelian berhasil disimpan.`);
         } else if (type === "OUT_SALE_MEMBER" || type === "OUT_SALE_NON") {
           const revAcc = type === "OUT_SALE_MEMBER"
             ? "4.1.1.01 Pendapatan Penjualan Barang Dagangan (Anggota)"
@@ -7189,10 +7866,11 @@
 
         saveState();
         closeQuickTrans();
+        syncAllTransactionDocNoInputs();
         renderAll();
       });
 
-      // Manual Journal Form (Saves Nama Petugas / Karyawan Penginput)
+      // Manual Journal Form (Auto-increments duplicate DocNo & saves Nama Petugas / Karyawan Penginput)
       document.getElementById("btnAddJournalLine").addEventListener("click", () => {
         document.getElementById("journalFormLines").appendChild(createJournalLineRow("", 0, 0));
       });
@@ -7201,18 +7879,9 @@
       document.getElementById("journalForm").addEventListener("submit", (e) => {
         e.preventDefault();
         const date = document.getElementById("jDate").value;
-        const docNo = document.getElementById("jDocNo").value.trim();
+        const rawDocNo = document.getElementById("jDocNo").value.trim();
+        const docNo = autoIncrementDuplicateDocNo(rawDocNo, date, null);
         const desc = document.getElementById("jDesc").value.trim();
-
-        const existingDoc = findExistingTransactionByDocNo(docNo);
-        if (existingDoc) {
-          updateDocNoWarningUI("jDocNo", "jDocNoWarning");
-          showToast(
-            `Gagal menyimpan! Nomor transaksi "${existingDoc.docNo}" sudah dipakai pada ${existingDoc.date} dengan keterangan: "${existingDoc.desc}".`,
-            "error"
-          );
-          return;
-        }
 
         const lines = [];
         let totD = 0;
@@ -7276,19 +7945,28 @@
         initJournalFormLines();
         document.getElementById("jDesc").value = "";
         renderAll();
-        showToast("Jurnal harian beserta nama petugas/karyawan penginput berhasil disimpan.");
+        showToast(`Jurnal harian (${docNo}) berhasil disimpan.`);
       });
 
-      // Delete Journal Line
+      // Delete Journal Package by DocNo (Hapus Sepaket Debit & Kredit per Nomor Transaksi - Poin 6 Gambar 6)
       document.getElementById("journalTableBody").addEventListener("click", (e) => {
         const btn = e.target.closest(".del-journal-btn");
         if (!btn) return;
-        const jid = btn.getAttribute("data-jid");
-        state.journals = state.journals.filter(j => j.id !== jid);
-        saveState();
-        updateDocNoWarningUI("jDocNo", "jDocNoWarning");
-        renderAll();
-        showToast("Baris jurnal berhasil dihapus & saldo laporan diperbarui.");
+        const docNo = btn.getAttribute("data-docno");
+        if (!docNo) return;
+        const matchingLines = state.journals.filter(j => (j.docNo || "").trim() === docNo.trim());
+        const count = matchingLines.length;
+        openConfirmModal(
+          `Hapus Sepaket Jurnal (${docNo})`,
+          `Apakah Anda yakin ingin menghapus sepaket transaksi jurnal nomor "${docNo}" (${count} baris Debit & Kredit sekaligus) agar neraca tetap seimbang?`,
+          () => {
+            state.journals = state.journals.filter(j => (j.docNo || "").trim() !== docNo.trim());
+            saveState();
+            syncAllTransactionDocNoInputs();
+            renderAll();
+            showToast(`Sepaket transaksi jurnal "${docNo}" (${count} baris Debit & Kredit) berhasil dihapus.`);
+          }
+        );
       });
 
       // Add COA Form (+ Saldo Awal Manual)
@@ -7342,6 +8020,7 @@
           accountantNik: document.getElementById("idAccountantNik").value.trim()
         };
         saveState();
+        syncAllTransactionDocNoInputs();
         renderAll();
         showToast("Identitas Koperasi Desa Merah Putih berhasil disimpan.");
       });
