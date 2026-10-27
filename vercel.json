@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "name": "siakad-kdmp",
+  "name": "siakad-kdmp-merah-putih",
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
