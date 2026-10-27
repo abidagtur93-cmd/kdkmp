@@ -1,0 +1,9 @@
+{
+  "name": "siakad-kdmp-merah-putih",
+  "version": "4.3.0",
+  "private": true,
+  "description": "Sistem Informasi Akuntansi, Anggota, Karyawan, Supplier & Persediaan Koperasi Desa Merah Putih (SIAKAD-KDMP v4.3)",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
